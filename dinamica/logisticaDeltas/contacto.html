@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#073486">
+  <title>Contacto | Logística Delta</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav">
+      <a class="brand" href="index.html" aria-label="Logística Delta, inicio">
+        <svg class="brand-mark" viewBox="0 0 100 100" aria-hidden="true">
+          <path d="M50 9 91 83H9L50 9Z" fill="none" stroke="white" stroke-width="9" />
+          <path d="m22 78 49-39M42 81l36-29M56 82l21-16" fill="none" stroke="white" stroke-width="5" />
+        </svg>
+      </a>
+      <button class="menu-toggle" type="button" aria-label="Abrir navegación" aria-expanded="false">☰</button>
+      <nav class="nav-links" aria-label="Navegación principal">
+        <a href="index.html">INICIO</a>
+        <a href="seguimiento.html">SEGUIMIENTO</a>
+        <a href="servicios.html">SERVICIOS</a>
+        <a href="contacto.html" aria-current="page">CONTACTO</a>
+      </nav>
+      <a class="nav-login" href="iniciar-sesion.html">INICIAR SESIÓN</a>
+      <a class="nav-login" href="registrarse.html">REGISTRARSE</a>
+    </div>
+  </header>
+  <main>
+    <div class="ribbon-title">
+      <h1>Contacto</h1>
+    </div>
+    <p class="contact-lead">En Logística Delta ofrecemos soluciones completas para que tus envíos lleguen de forma segura, rápida y confiable.</p>
+    <section class="contact-panel" aria-label="Datos y formulario de contacto">
+      <div class="contact-details">
+        <a class="contact-item" href="mailto:logistica.delta@gmail.com">
+          <span class="contact-item-icon" aria-hidden="true">✉</span>
+          <span><strong>Email</strong><span>logistica.delta@gmail.com</span></span>
+        </a>
+        <div class="contact-item">
+          <span class="contact-item-icon" aria-hidden="true">◷</span>
+          <span><strong>Horarios</strong><span>Lun a Vie. 8 a 18 hs.</span></span>
+        </div>
+        <a class="contact-item" href="tel:+541145678900">
+          <span class="contact-item-icon" aria-hidden="true">☎</span>
+          <span><strong>Teléfono</strong><span>+54 11 4567-8900</span></span>
+        </a>
+      </div>
+      <div class="contact-message">
+        <form data-demo-form="contact">
+          <label for="message">Mensaje</label>
+          <textarea id="message" name="message" aria-label="Escribí tu mensaje" required></textarea>
+          <button class="primary-button" type="submit">Enviar</button>
+          <p class="form-feedback" role="status" aria-live="polite"></p>
+        </form>
+      </div>
+    </section>
+  </main>
+  <div data-shared-footer></div>
+  <script src="app.js"></script>
+</body>
+</html>

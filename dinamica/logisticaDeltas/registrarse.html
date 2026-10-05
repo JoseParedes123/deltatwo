@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#073486">
+  <title>Registrarse | Logística Delta</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav">
+      <a class="brand" href="index.html" aria-label="Logística Delta, inicio">
+        <svg class="brand-mark" viewBox="0 0 100 100" aria-hidden="true">
+          <path d="M50 9 91 83H9L50 9Z" fill="none" stroke="white" stroke-width="9" />
+          <path d="m22 78 49-39M42 81l36-29M56 82l21-16" fill="none" stroke="white" stroke-width="5" />
+        </svg>
+      </a>
+      <button class="menu-toggle" type="button" aria-label="Abrir navegación" aria-expanded="false">☰</button>
+      <nav class="nav-links" aria-label="Navegación principal">
+        <a href="index.html">INICIO</a>
+        <a href="seguimiento.html">SEGUIMIENTO</a>
+        <a href="servicios.html">SERVICIOS</a>
+        <a href="contacto.html">CONTACTO</a>
+      </nav>
+      <a class="nav-login" href="iniciar-sesion.html">INICIAR SESIÓN</a>
+      <a class="nav-login" href="registrarse.html">REGISTRARSE</a>
+    </div>
+  </header>
+  <main class="auth-layout register-layout">
+    <section class="auth-form-side">
+      <form class="auth-form" data-demo-form="register">
+        <h1>Registrarse</h1>
+        <p class="subtitle">Completá tus datos para registrarte.</p>
+        <div class="input-box">
+          <label for="first-name">Nombre</label>
+          <span class="input-icon" aria-hidden="true">●</span>
+          <input id="first-name" name="first-name" placeholder="Juan" autocomplete="given-name" required>
+        </div>
+        <div class="input-box">
+          <label for="last-name">Apellido</label>
+          <span class="input-icon" aria-hidden="true">●</span>
+          <input id="last-name" name="last-name" placeholder="Juan Díaz" autocomplete="family-name" required>
+        </div>
+        <div class="input-box">
+          <label for="register-email">Email</label>
+          <span class="input-icon" aria-hidden="true">＠</span>
+          <input id="register-email" type="email" name="email" placeholder="juan.diaz@gmail.com" autocomplete="email" required>
+        </div>
+        <div class="input-box">
+          <label for="username">Usuario</label>
+          <span class="input-icon" aria-hidden="true">♙</span>
+          <input id="username" name="username" placeholder="Juanito" autocomplete="username" required>
+        </div>
+        <div class="input-box">
+          <label for="register-password">Contraseña</label>
+          <span class="input-icon" aria-hidden="true">▣</span>
+          <input id="register-password" type="password" name="password" placeholder="Contraseña" autocomplete="new-password" minlength="8" required>
+        </div>
+        <button class="primary-button auth-submit" type="submit">Registrarse</button>
+        <p class="form-feedback" role="status" aria-live="polite"></p>
+        <p class="auth-switch"><a class="text-link" href="iniciar-sesion.html">¿Ya tenés una cuenta?</a></p>
+      </form>
+    </section>
+    <aside class="auth-photo" aria-label="Camión de Logística Delta">
+      <div class="auth-logo">
+        <svg viewBox="0 0 100 100" aria-hidden="true">
+          <path d="M50 8 92 84H8L50 8Z" fill="none" stroke="white" stroke-width="8" />
+          <path d="m22 78 48-39M41 81l36-29M57 82l20-16" fill="none" stroke="white" stroke-width="5" />
+        </svg>
+        LOGÍSTICA DELTA
+      </div>
+    </aside>
+  </main>
+  <div data-shared-footer></div>
+  <script src="app.js"></script>
+</body>
+</html>
