@@ -82,6 +82,7 @@ button, a { -webkit-tap-highlight-color: transparent; }
 .progress-step.current .progress-dot { background: var(--navy); }
 .progress-step span:last-child { font: 800 clamp(.7rem, 1.3vw, 1rem) var(--heading); text-transform: uppercase; }
 .shipment-card { display: grid; grid-template-columns: 1fr 1fr; gap: 34px; padding: 42px 28px; border-radius: 32px; background: var(--navy); color: white; }
+.shipment-card[hidden] { display: none; }
 .shipment-summary { padding-right: 28px; border-right: 3px solid white; }
 .shipment-topline { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; margin-bottom: 28px; }
 .shipment-topline h2 { margin: 0; font: 900 clamp(1.8rem, 3.5vw, 3rem) var(--heading); }

@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#073486">
   <title>Seguimiento de envíos | Logística Delta</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
   <header class="site-header">
@@ -42,29 +42,25 @@
       <div class="progress-step current"><span class="progress-dot"></span><span>En tránsito</span></div>
       <div class="progress-step"><span class="progress-dot"></span><span>Entregado</span></div>
     </div>
-    <section class="shipment-card" id="shipment-card" aria-label="Detalles del envío">
+    <section class="shipment-card" id="shipment-card" aria-label="Detalles del envío" hidden>
       <div class="shipment-summary">
         <div class="shipment-topline">
           <h2 id="shipment-code">DEL-000245</h2>
-          <span class="state-chip">En tránsito</span>
+          <span class="state-chip" id="shipment-state"></span>
         </div>
-        <p>Origen: Munro</p>
-        <p>Destino: Buenos Aires</p>
-        <p>Fecha de envío: 16/09/2026</p>
-        <p>Tipo de paquete: Paquete comercial</p>
+        <p>Origen: <span id="shipment-origin"></span></p>
+        <p>Destino: <span id="shipment-destination"></span></p>
+        <p>Fecha de solicitud: <span id="shipment-date"></span></p>
+        <p>Entrega estimada: <span id="shipment-estimated"></span></p>
       </div>
       <div>
-        <h3>Historial reciente</h3>
-        <ul class="shipment-history">
-          <li>16/09/2026 - 10:30 | Salió de depósito</li>
-          <li>16/09/2026 - 08:15 | Preparado para despacho</li>
-          <li>15/09/2026 - 16:40 | Recibido en depósito</li>
-        </ul>
-        <a class="history-link" href="#shipment-card">Ver historial completo →</a>
+        <h3>Detalles del paquete</h3>
+        <p>Descripción: <span id="shipment-package"></span></p>
+        <p>Peso: <span id="shipment-weight"></span></p>
       </div>
     </section>
   </main>
   <div data-shared-footer></div>
-  <script src="app.js"></script>
+  <script src="js/app.js"></script>
 </body>
 </html>
