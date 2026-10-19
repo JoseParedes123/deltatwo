@@ -6,10 +6,9 @@ class PaqueteDAO
 {
     private PDO $db;
 
-    public function __construct()
+    public function __construct(?PDO $db = null)
     {
-        // Conexion compartida para las consultas de paquetes.
-        $this->db = (new Conexion())->conectar();
+        $this->db = $db ?? (new Conexion())->conectar();
     }
 
     // Devuelve todos los paquetes registrados.

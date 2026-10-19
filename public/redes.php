@@ -1,0 +1,39 @@
+<?php require_once __DIR__ . '/../app/helpers/funciones.php'; ?>
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#073486">
+  <title>Contactanos | Logística Delta</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <?php include __DIR__ . '/partials/nav.php'; ?>
+  <main class="pagina-redes">
+    <section class="contenedor contenido-redes">
+      <h1>Contactanos</h1>
+      <nav class="enlaces-redes" aria-label="Redes y correo">
+        <a href="https://www.facebook.com/" target="_blank" rel="noreferrer">
+          <span class="icono-redes" aria-hidden="true">f</span>
+          Logistica.delta
+        </a>
+        <a href="https://www.instagram.com/" target="_blank" rel="noreferrer">
+          <span class="icono-redes" aria-hidden="true">◎</span>
+          @Logistica.delta.oficial
+        </a>
+        <a href="mailto:logistica.delta@gmail.com">
+          <span class="icono-redes" aria-hidden="true">✉</span>
+          logistica.delta@gmail.com
+        </a>
+      </nav>
+    </section>
+    <div class="ilustracion-recorrido" aria-hidden="true">
+      <span>▤</span>
+      <span>⌖</span>
+      <span>⌂</span>
+    </div>
+  </main>
+  <?php include __DIR__ . '/partials/footer.php'; ?>
+</body>
+</html>

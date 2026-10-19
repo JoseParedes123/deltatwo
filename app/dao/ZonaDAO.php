@@ -6,10 +6,9 @@ class ZonaDAO
 {
     private PDO $db;
 
-    public function __construct()
+    public function __construct(?PDO $db = null)
     {
-        // Conexion compartida para las consultas de zonas.
-        $this->db = (new Conexion())->conectar();
+        $this->db = $db ?? (new Conexion())->conectar();
     }
 
     // Devuelve las zonas activas para listarlas en formularios y vistas.

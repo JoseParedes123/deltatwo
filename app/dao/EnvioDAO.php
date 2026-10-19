@@ -7,9 +7,73 @@ class EnvioDAO
 {
     private PDO $db;
 
-    public function __construct()
+    public function __construct(?PDO $db = null)
     {
-        $this->db = (new Conexion())->conectar();
+        $this->db = $db ?? (new Conexion())->conectar();
+    }
+
+    // Devuelve los datos publicos del envio, aceptando el codigo de envio o de paquete.
+    public function obtenerParaSeguimiento(string $codigo): ?array
+    {
+        $sql = "SELECT e.id_envio, e.codigo_envio, e.estado, remitente.direccion AS origen,
+                       destinatario.direccion AS destino, paquete.codigo AS codigo_paquete,
+                       paquete.descripcion AS descripcion_paquete, paquete.peso_kg,
+                       e.fecha_solicitud, e.fecha_entrega_estimada
+                FROM envios e
+                INNER JOIN contactos remitente ON remitente.id_contacto = e.id_remitente
+                INNER JOIN contactos destinatario ON destinatario.id_contacto = e.id_destinatario
+                INNER JOIN paquetes paquete ON paquete.id_paquete = e.id_paquete
+                WHERE (e.codigo_envio = :codigo_envio OR paquete.codigo = :codigo_paquete)
+                  AND e.activo = 1 LIMIT 1";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute(['codigo_envio' => $codigo, 'codigo_paquete' => $codigo]);
+        $envio = $stmt->fetch();
+
+        return $envio ?: null;
+    }
+
+    // Busca el id de un envio por su codigo o por el codigo de su paquete.
+    public function obtenerIdPorCodigo(string $codigo): ?int
+    {
+        $sql = "SELECT e.id_envio FROM envios e
+                INNER JOIN paquetes p ON p.id_paquete = e.id_paquete
+                WHERE (e.codigo_envio = :codigo_envio OR p.codigo = :codigo_paquete)
+                  AND e.activo = 1 LIMIT 1";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute(['codigo_envio' => $codigo, 'codigo_paquete' => $codigo]);
+        $idEnvio = $stmt->fetchColumn();
+
+        return $idEnvio ? (int) $idEnvio : null;
+    }
+
+    // Muestra los envios recientes en el panel de operaciones.
+    public function obtenerParaPanel(): array
+    {
+        $sql = "SELECT e.codigo_envio, e.estado, d.nombre AS destino,
+                       (SELECT CONCAT(m.sucursal, ' · ', m.provincia)
+                        FROM movimientos_seguimiento m WHERE m.id_envio = e.id_envio
+                        ORDER BY m.fecha_hora DESC, m.id_movimiento DESC LIMIT 1) AS ubicacion
+                FROM envios e
+                INNER JOIN contactos d ON d.id_contacto = e.id_destinatario
+                WHERE e.activo = 1 ORDER BY e.fecha_solicitud DESC LIMIT 100";
+
+        return $this->db->query($sql)->fetchAll();
+    }
+
+    // Devuelve los envios de la cuenta del cliente y sus datos de destino.
+    public function obtenerPorUsuario(int $idUsuario): array
+    {
+        $sql = "SELECT e.codigo_envio, e.estado, e.fecha_solicitud, e.fecha_entrega_estimada,
+                       e.precio_final, destino.nombre AS destinatario, destino.direccion AS destino
+                FROM envios e
+                INNER JOIN clientes c ON c.id_cliente = e.id_cliente
+                INNER JOIN contactos destino ON destino.id_contacto = e.id_destinatario
+                WHERE c.id_usuario = :id_usuario AND e.activo = 1
+                ORDER BY e.fecha_solicitud DESC";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute(['id_usuario' => $idUsuario]);
+
+        return $stmt->fetchAll();
     }
 
     public function obtenerPorCodigo(string $codigo): ?Envio

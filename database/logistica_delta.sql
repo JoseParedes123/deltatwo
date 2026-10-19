@@ -365,7 +365,8 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`id_usuario`, `nombre`, `apellido`, `dni`, `email`, `nombre_usuario`, `password_hash`, `rol`, `activo`, `fecha_creacion`, `ultimo_login`) VALUES
-(1, 'Juan', 'Pérez', '30111222', 'juan.perez@delta.local', 'operador', '240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9', 'OPERADOR_DEPOSITO', 1, '2026-10-05 11:12:42', NULL);
+(1, 'Juan', 'Pérez', '30111222', 'juan.perez@delta.local', 'operador', SHA2('123456', 256), 'OPERADOR_DEPOSITO', 1, '2026-10-05 11:12:42', NULL),
+(2, 'Admin', 'Delta', NULL, 'admin@delta.local', 'admin', SHA2('DeltaAdmin123', 256), 'ADMINISTRADOR', 1, '2026-10-14 00:00:00', NULL);
 
 -- --------------------------------------------------------
 
@@ -648,7 +649,7 @@ ALTER TABLE `ubicaciones`
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `vehiculos`
@@ -764,3 +765,44 @@ COMMIT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
+-- Recorrido público por sucursales (Argentina).
+CREATE TABLE `movimientos_seguimiento` (
+  `id_movimiento` int(11) NOT NULL AUTO_INCREMENT,
+  `id_envio` int(11) NOT NULL,
+  `sucursal` varchar(100) NOT NULL,
+  `provincia` varchar(80) NOT NULL,
+  `detalle` varchar(255) NOT NULL,
+  `fecha_hora` datetime NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`id_movimiento`),
+  KEY `idx_seguimiento_envio_fecha` (`id_envio`, `fecha_hora`),
+  CONSTRAINT `fk_seguimiento_envio` FOREIGN KEY (`id_envio`) REFERENCES `envios` (`id_envio`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+INSERT INTO `movimientos_seguimiento` (`id_envio`, `sucursal`, `provincia`, `detalle`, `fecha_hora`) VALUES
+(1, 'Sucursal Logística Delta CABA', 'Ciudad Autónoma de Buenos Aires', 'El paquete fue recibido en sucursal.', '2026-10-05 11:12:42'),
+(2, 'Sucursal Logística Delta CABA', 'Ciudad Autónoma de Buenos Aires', 'El paquete ingresó y quedó listo para clasificación.', '2026-10-05 11:12:42'),
+(3, 'Centro de distribución CABA', 'Ciudad Autónoma de Buenos Aires', 'El paquete salió del centro de distribución.', '2026-10-05 11:12:42'),
+(4, 'Sucursal Logística Delta CABA', 'Ciudad Autónoma de Buenos Aires', 'El paquete ingresó a revisión por una incidencia.', '2026-10-05 11:12:42');
+
+
+-- Tarifa inicial de ejemplo para la zona CABA.
+INSERT INTO `tarifas` (`nombre`, `id_zona`, `tipo_envio`, `precio_base`, `precio_por_kg`, `precio_por_m3`, `recargo_fragil`, `vigente_desde`, `vigente_hasta`, `activo`)
+VALUES ('Envío estándar CABA', 1, 'ESTANDAR', 2500.00, 350.00, 0.00, 500.00, '2026-01-01', NULL, 1);
+
+-- Consultas y reportes enviados desde la web pública.
+CREATE TABLE `consultas_web` (
+  `id_consulta` int(11) NOT NULL AUTO_INCREMENT,
+  `id_cliente` int(11) DEFAULT NULL,
+  `id_envio` int(11) DEFAULT NULL,
+  `nombre` varchar(120) NOT NULL,
+  `email` varchar(120) NOT NULL,
+  `asunto` varchar(80) NOT NULL,
+  `mensaje` text NOT NULL,
+  `estado` enum('PENDIENTE','EN_REVISION','RESPONDIDA') NOT NULL DEFAULT 'PENDIENTE',
+  `fecha_creacion` datetime NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`id_consulta`),
+  KEY `idx_consultas_estado_fecha` (`estado`, `fecha_creacion`),
+  CONSTRAINT `fk_consultas_cliente` FOREIGN KEY (`id_cliente`) REFERENCES `clientes` (`id_cliente`),
+  CONSTRAINT `fk_consultas_envio` FOREIGN KEY (`id_envio`) REFERENCES `envios` (`id_envio`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

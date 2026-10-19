@@ -6,10 +6,9 @@ class TarifaDAO
 {
     private PDO $db;
 
-    public function __construct()
+    public function __construct(?PDO $db = null)
     {
-        // Conexion compartida para las consultas de tarifas.
-        $this->db = (new Conexion())->conectar();
+        $this->db = $db ?? (new Conexion())->conectar();
     }
 
     // Devuelve las tarifas activas junto con el nombre de su zona.

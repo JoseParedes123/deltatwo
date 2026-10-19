@@ -6,10 +6,9 @@ class ClienteDAO
 {
     private PDO $db;
 
-    public function __construct()
+    public function __construct(?PDO $db = null)
     {
-        // Conexion compartida para las consultas de clientes.
-        $this->db = (new Conexion())->conectar();
+        $this->db = $db ?? (new Conexion())->conectar();
     }
 
     // Trae todos los clientes junto con los datos de su usuario.

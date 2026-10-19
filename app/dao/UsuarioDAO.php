@@ -6,10 +6,9 @@ class UsuarioDAO
 {
     private PDO $db;
 
-    public function __construct()
+    public function __construct(?PDO $db = null)
     {
-        // Conexion compartida para las consultas de usuarios.
-        $this->db = (new Conexion())->conectar();
+        $this->db = $db ?? (new Conexion())->conectar();
     }
 
     // Devuelve todos los usuarios (sin la clave) para el panel de administracion.
