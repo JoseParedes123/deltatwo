@@ -8,8 +8,8 @@ $paginaActual = $paginaActual ?? '';
 <header class="encabezado-sitio">
   <div class="contenedor barra-navegacion">
     <a class="marca" href="index.php" aria-label="Logística Delta, inicio">
-      <svg class="simbolo-marca" viewBox="0 0 100 100" aria-hidden="true"><path d="M50 9 91 83H9L50 9Z" fill="none" stroke="white" stroke-width="9"/><path d="m22 78 49-39M42 81l36-29M56 82l21-16" fill="none" stroke="white" stroke-width="5"/></svg>
-      <span class="nombre-marca"><span>LOGÍSTICA</span><strong>DELTA</strong></span>
+      <img src="./media/Logistica_Delta.svg" width="50" height="50" alt="">
+    <span class="nombre-marca"><span>LOGÍSTICA</span><strong>DELTA</strong></span>
     </a>
     <button class="boton-menu" type="button" aria-label="Abrir navegación" aria-expanded="false">☰</button>
     <nav class="enlaces-navegacion" aria-label="Navegación principal">

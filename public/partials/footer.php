@@ -2,7 +2,9 @@
 <footer class="pie-compartido">
   <div class="contenedor grilla-pie">
     <div class="marca-pie">
-      <a class="marca" href="index.php" aria-label="Logística Delta, inicio"><svg class="simbolo-marca" viewBox="0 0 100 100" aria-hidden="true"><path d="M50 9 91 83H9L50 9Z" fill="none" stroke="white" stroke-width="9"/><path d="m22 78 49-39M42 81l36-29M56 82l21-16" fill="none" stroke="white" stroke-width="5"/></svg><strong>LOGÍSTICA DELTA</strong></a>
+      <a class="marca" href="index.php" aria-label="Logística Delta, inicio">
+      <img src="./media/Logistica_Delta.svg" width="50" height="50" alt="">
+        <strong>LOGÍSTICA DELTA</strong></a>
       <p>Envíos rápidos y seguros para CABA, GBA y todo el país.</p>
     </div>
     <nav class="navegacion-pie" aria-label="Enlaces del pie de página">
