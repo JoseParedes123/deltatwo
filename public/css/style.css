@@ -1007,3 +1007,7 @@ button, a { -webkit-tap-highlight-color: transparent; }
 }
 .tarjeta-servicio h2 { margin-bottom: 14px; }
 
+
+/* Distingue el acceso del equipo desde la navegación principal. */
+.barra-navegacion .enlace-personal { padding: 9px 12px; border: 1px solid rgba(255,255,255,.7); border-radius: 999px; }
+.barra-navegacion .enlace-personal:hover { background: rgba(255,255,255,.14); }

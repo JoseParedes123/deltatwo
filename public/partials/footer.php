@@ -8,7 +8,7 @@
       <p>Envíos rápidos y seguros para CABA, GBA y todo el país.</p>
     </div>
     <nav class="navegacion-pie" aria-label="Enlaces del pie de página">
-      <a href="index.php">Inicio</a><a href="servicios.php">Servicios</a><a href="seguimiento.php">Seguimiento</a><a href="contacto.php">Contacto</a><a href="panel-admin.php">Acceso de personal</a>
+      <a href="index.php">Inicio</a><a href="servicios.php">Servicios</a><a href="seguimiento.php">Seguimiento</a><a href="contacto.php">Contacto</a>
     </nav>
     <div class="contacto-pie"><strong>Hablemos</strong><a href="mailto:logistica.delta@gmail.com">logistica.delta@gmail.com</a><a href="tel:+541145678900">+54 11 4567-8900</a><a href="redes.php">Redes sociales</a></div>
   </div>
