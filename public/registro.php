@@ -40,7 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if ($db && $db->inTransaction()) $db->rollBack();
             $error = $exception->getCode() === '23000'
                 ? 'Ese email o nombre de usuario ya está registrado.'
-                : 'No pudimos crear la cuenta. Revisá que MySQL esté activo.';
+                : 'No pudimos crear la cuenta en este momento. Intentá nuevamente más tarde.';
             error_log($exception->getMessage());
         }
     }

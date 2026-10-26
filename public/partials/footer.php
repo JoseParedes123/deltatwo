@@ -5,7 +5,7 @@
       <a class="marca" href="index.php" aria-label="Logística Delta, inicio">
       <img src="./media/Logistica_Delta.svg" width="50" height="50" alt="">
         <strong>LOGÍSTICA DELTA</strong></a>
-      <p>Envíos rápidos y seguros para CABA, GBA y todo el país.</p>
+      <p>Envíos rápidos y seguros en la provincia de Buenos Aires.</p>
     </div>
     <nav class="navegacion-pie" aria-label="Enlaces del pie de página">
       <a href="index.php">Inicio</a><a href="servicios.php">Servicios</a><a href="seguimiento.php">Seguimiento</a><a href="contacto.php">Contacto</a>

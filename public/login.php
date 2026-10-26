@@ -25,7 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $error = 'No pudimos iniciar sesión. Revisá tus datos o registrate como cliente.';
     } catch (Throwable $exception) {
         error_log($exception->getMessage());
-        $error = 'No pudimos iniciar sesión. Revisá que MySQL esté activo.';
+        $error = 'No pudimos iniciar sesión en este momento. Intentá de nuevo más tarde.';
     }
 }
 ?>
@@ -49,6 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <div class="opciones-acceso"><span>¿Necesitás ayuda?</span><a class="enlace-texto" href="contacto.php">Contactanos</a></div>
         <button class="boton-principal boton-acceso" type="submit">Iniciar sesión</button>
         <p class="alternativa-acceso"><a class="enlace-texto" href="registro.php">¿No tenés una cuenta? Registrate</a></p>
+        <p class="acceso-personal"><span>¿Sos parte del personal?</span> <a class="enlace-texto" href="panel-admin.php">Ingresá al panel de operaciones</a></p>
       </form>
     </section>
     <aside class="foto-acceso" aria-label="Camión de Logística Delta"><div class="logo-acceso"><svg viewBox="0 0 100 100" aria-hidden="true"><path d="M50 8 92 84H8L50 8Z" fill="none" stroke="white" stroke-width="8"/><path d="m22 78 48-39M41 81l36-29M57 82l20-16" fill="none" stroke="white" stroke-width="5"/></svg>LOGÍSTICA DELTA</div></aside>

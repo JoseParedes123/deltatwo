@@ -15,7 +15,7 @@ require_once __DIR__ . '/../app/helpers/funciones.php';
 	<?php include __DIR__ . '/partials/nav.php'; ?>
 	<main>
 		<section class="portada-inicio" aria-labelledby="home-title">
-			<div class="contenedor marca-destacada"><div><h1 id="home-title"><span>Logística</span><span>Delta</span></h1><p>Envíos rápidos y seguros</p></div></div>
+			<div class="contenedor marca-destacada"><div><h1 id="home-title"><span>Logística</span><span>Delta</span></h1><p>Envíos rápidos y seguros</p><a class="boton-principal boton-seguimiento-portada" href="seguimiento.php">Seguí tu envío</a></div></div>
 		</section>
 		<section class="contenedor seccion-dividida">
 			<div><h2>Sobre nosotros</h2><p>Somos Logística Delta, una empresa dedicada al transporte y distribución de paquetes. Contamos con un equipo de profesionales y tecnología para brindar un servicio seguro, eficiente y personalizado.</p></div>
@@ -24,7 +24,7 @@ require_once __DIR__ . '/../app/helpers/funciones.php';
 		<div class="franja-inicio">
 			<section class="contenedor seccion-dividida">
 				<img class="foto-recortada foto-redondeada" src="media/photo-1580674285054-bed31e145f59.jpeg" alt="Camión de carga en ruta">
-			<div><h2>Nuestro alcance</h2><p>Conectamos sucursales y centros de distribución en distintas provincias para que tu paquete recorra Argentina de forma segura.</p></div>
+			<div><h2>Nuestro alcance</h2><p>Conectamos distintas localidades de la provincia de Buenos Aires para que tu paquete llegue de forma segura.</p></div>
 			</section>
 		</div>
 		<section class="contenedor seccion-dividida">

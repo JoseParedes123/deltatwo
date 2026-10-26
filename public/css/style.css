@@ -114,6 +114,7 @@ button, a { -webkit-tap-highlight-color: transparent; }
 .historial-envio li { margin-bottom: 22px; font-size: 1.2rem; }
 .enlace-historial { display: block; margin: 22px 0 0; text-align: center; font: 800 1.25rem var(--fuente-titulos); }
 .mensaje-seguimiento { min-height: 1.5em; margin: -36px 0 24px; color: #a32121; font-weight: 800; }
+.aviso-estado-envio { margin: 0 0 28px; padding: 18px 24px; border-left: 6px solid var(--celeste); border-radius: 8px; background: #eaf7fb; color: var(--azul); font-size: 1.15rem; font-weight: 800; }
 
 /* Formularios de acceso, registro y contacto. */
 .disposicion-acceso { display: grid; grid-template-columns: 1.2fr 1fr; min-height: calc(100vh - 112px); }
@@ -131,6 +132,8 @@ button, a { -webkit-tap-highlight-color: transparent; }
 .enlace-texto { color: var(--celeste); font-style: italic; text-decoration: none; }
 .boton-acceso { width: 100%; min-height: 68px; border-radius: 14px; }
 .alternativa-acceso { margin: 42px 0 0; text-align: center; font-size: 1.25rem; }
+.acceso-personal { margin: 18px 0 0; color: var(--texto); text-align: center; font-size: 1.05rem; }
+.acceso-personal a { display: inline-block; margin-left: 4px; font-weight: 700; text-underline-offset: 3px; }
 .foto-acceso { position: relative; min-height: 700px; background: linear-gradient(180deg, rgba(3,44,92,.12), rgba(3,30,65,.22)), url('https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?auto=format&fit=crop&w=1300&q=85') center / cover; }
 .logo-acceso { position: absolute; top: 28px; left: 0; right: 0; display: grid; place-items: center; color: #fff; text-align: center; font: 900 clamp(1.45rem, 3vw, 2.6rem) var(--fuente-titulos); }
 .logo-acceso svg { width: min(260px, 45%); height: auto; margin-bottom: -8px; }
@@ -711,10 +714,10 @@ button, a { -webkit-tap-highlight-color: transparent; }
 @media (min-width: 901px) and (max-width: 1450px) {
   .marca-destacada { width: calc(100% - 48px); gap: 12px; }
   .marca-destacada > div { flex-basis: 740px; }
-  .marca-destacada h1 { font-size: clamp(4.8rem, 8vw, 7.4rem); }
-  .marca-destacada::before, .marca-destacada::after { flex-basis: 112px; width: 112px; }
-  .marca-destacada::before { margin-right: 48px; box-shadow: 48px 0 0 var(--celeste); }
-  .marca-destacada::after { margin-left: 48px; box-shadow: -48px 0 0 var(--celeste); }
+  .marca-destacada h1 { font-size: clamp(4.8rem, 8.4vw, 7.9rem); }
+  .marca-destacada::before, .marca-destacada::after { flex-basis: 180px; width: 180px; }
+  .marca-destacada::before { margin-right: 68px; box-shadow: 68px 0 0 var(--celeste); }
+  .marca-destacada::after { margin-left: 68px; box-shadow: -68px 0 0 var(--celeste); }
   .titulo-cinta { gap: 18px; }
   .titulo-cinta::before, .titulo-cinta::after { flex-basis: 90px; width: 90px; }
   .titulo-cinta::before { margin-right: 42px; box-shadow: 42px 0 0 var(--celeste); }
@@ -1011,3 +1014,29 @@ button, a { -webkit-tap-highlight-color: transparent; }
 /* Distingue el acceso del equipo desde la navegación principal. */
 .barra-navegacion .enlace-personal { padding: 9px 12px; border: 1px solid rgba(255,255,255,.7); border-radius: 999px; }
 .barra-navegacion .enlace-personal:hover { background: rgba(255,255,255,.14); }
+
+/* Acción principal y espacio final de la portada. */
+.boton-seguimiento-portada {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 54px;
+  margin-top: 24px;
+  padding: 12px 30px;
+  border: 0;
+  border-radius: 999px;
+  box-shadow: 0 8px 18px rgba(7,52,134,.18);
+  color: #fff;
+  font: 800 1.1rem var(--fuente-titulos);
+  text-decoration: none;
+  transition: background-color .2s ease, transform .2s ease;
+}
+.boton-seguimiento-portada:hover { background: var(--azul); transform: translateY(-2px); }
+.portada-inicio, .marca-destacada { min-height: max(580px, calc(100svh - 142px)); }
+@media (max-width: 900px) {
+  .portada-inicio, .marca-destacada { min-height: max(560px, calc(100svh - 76px)); }
+}
+@media (max-width: 620px) {
+  .portada-inicio, .marca-destacada { min-height: max(600px, calc(100svh - 76px)); }
+  .boton-seguimiento-portada { margin-top: 18px; padding-inline: 26px; }
+}

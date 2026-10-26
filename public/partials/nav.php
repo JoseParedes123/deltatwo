@@ -19,9 +19,6 @@ $paginaActual = $paginaActual ?? '';
       <a href="contacto.php" <?= $paginaActual === 'contacto' ? 'aria-current="page"' : '' ?>>CONTACTO</a>
     </nav>
     <div class="cuenta-navegacion">
-      <?php if (!$usuarioNav || $usuarioNav['rol'] === 'CLIENTE'): ?>
-        <a class="enlace-acceso enlace-personal" href="panel-admin.php">PERSONAL</a>
-      <?php endif; ?>
       <?php if ($usuarioNav && $usuarioNav['rol'] === 'CLIENTE'): ?>
         <a class="enlace-acceso" href="envios.php">MI CUENTA</a>
         <form method="post" action="logout.php"><button class="enlace-acceso" type="submit">CERRAR SESIÓN</button></form>

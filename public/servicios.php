@@ -25,7 +25,7 @@
           </svg>
           Envíos regionales
         </h2>
-        <p>Llevamos tus paquetes a todo Buenos Aires.</p>
+        <p>Llevamos tus paquetes a distintas localidades de la provincia de Buenos Aires.</p>
       </article>
       <article class="tarjeta-servicio">
         <h2>

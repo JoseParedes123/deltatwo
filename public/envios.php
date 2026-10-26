@@ -80,7 +80,7 @@ try {
     error_log($exception->getMessage());
     $envios = [];
     $zonas = [];
-    $error = 'No pudimos cargar los datos de la cuenta. Revisá la conexión con MySQL.';
+    $error = 'No pudimos cargar los datos de tu cuenta. Intentá recargar la página.';
 }
 ?>
 <!doctype html>
@@ -100,13 +100,13 @@ try {
 
     <section class="solicitud-cuenta" aria-labelledby="request-title">
       <h2 id="request-title">Solicitar un envío</h2>
-      <p>Completá los datos para registrar un envío dentro de Argentina.</p>
+      <p>Completá los datos para registrar un envío dentro de la provincia de Buenos Aires.</p>
       <form method="post" class="formulario-solicitud-envio">
         <input type="hidden" name="accion" value="solicitar">
         <label>Nombre del remitente<input name="remitente" autocomplete="name" required maxlength="120" value="<?= limpiar($_POST['remitente'] ?? '') ?>"></label>
-        <label>Origen · localidad y provincia<input name="origen" placeholder="CABA, Buenos Aires" required maxlength="200" value="<?= limpiar($_POST['origen'] ?? '') ?>"></label>
+        <label>Origen · localidad y provincia<input name="origen" placeholder="Olivos, Buenos Aires" required maxlength="200" value="<?= limpiar($_POST['origen'] ?? '') ?>"></label>
         <label>Nombre del destinatario<input name="destinatario" required maxlength="120" value="<?= limpiar($_POST['destinatario'] ?? '') ?>"></label>
-        <label>Destino · localidad y provincia<input name="destino" placeholder="Córdoba, Córdoba" required maxlength="200" value="<?= limpiar($_POST['destino'] ?? '') ?>"></label>
+        <label>Destino · localidad y provincia<input name="destino" placeholder="San Martín, Buenos Aires" required maxlength="200" value="<?= limpiar($_POST['destino'] ?? '') ?>"></label>
         <label>Teléfono de contacto<input name="telefono" type="tel" maxlength="30" value="<?= limpiar($_POST['telefono'] ?? '') ?>"></label>
         <label>Zona de entrega<select name="zona" required><option value="">Elegí una zona</option>
           <?php foreach ($zonas as $zona): ?><option value="<?= (int) $zona['id_zona'] ?>" <?= (string) ($idZona ?? '') === (string) $zona['id_zona'] ? 'selected' : '' ?>><?= limpiar($zona['nombre']) ?></option><?php endforeach; ?>

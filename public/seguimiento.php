@@ -23,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' || isset($_GET['codigo'])) {
             }
         } catch (Throwable $exception) {
             error_log($exception->getMessage());
-            $error = 'No pudimos consultar el envío. Verificá que MySQL esté activo.';
+            $error = 'No pudimos consultar el envío en este momento. Intentá nuevamente más tarde.';
         }
     }
 }
@@ -31,9 +31,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' || isset($_GET['codigo'])) {
 $etapasPorEstado = [
     'REGISTRADO' => 0, 'RECIBIDO_DEPOSITO' => 1, 'PREPARADO' => 2,
     'EN_TRANSITO' => 3, 'EN_REPARTO' => 3, 'ENTREGADO' => 4,
-    'NO_ENTREGADO' => 3, 'DEVUELTO' => 3, 'EXTRAVIADO' => 3,
 ];
 $etapaActual = $envio ? ($etapasPorEstado[$envio['estado']] ?? -1) : -1;
+$avisosEstado = [
+    'NO_ENTREGADO' => 'No se pudo completar la entrega. Contactanos para coordinar los próximos pasos.',
+    'DEVUELTO' => 'El paquete fue devuelto al remitente. Contactanos si necesitás más información.',
+    'EXTRAVIADO' => 'Estamos revisando una incidencia con este envío. Contactanos para recibir asistencia.',
+    'CANCELADO' => 'Este envío fue cancelado. Contactanos si tenés alguna consulta.',
+];
 ?>
 <!doctype html>
 <html lang="es">
@@ -56,11 +61,15 @@ $etapaActual = $envio ? ($etapasPorEstado[$envio['estado']] ?? -1) : -1;
     <?php if ($error): ?><p class="mensaje-seguimiento" role="status"><?= limpiar($error) ?></p><?php endif; ?>
 
     <?php if ($envio): ?>
+      <?php if (isset($avisosEstado[$envio['estado']])): ?>
+        <p class="aviso-estado-envio" role="status"><?= limpiar($avisosEstado[$envio['estado']]) ?></p>
+      <?php else: ?>
       <div class="progreso-envio" aria-label="Etapas del envío">
         <?php foreach (['Registrado', 'En depósito', 'En preparación', 'En tránsito', 'Entregado'] as $indice => $etapa): ?>
           <div class="paso-progreso <?= $indice <= $etapaActual ? 'actual' : '' ?>"><span class="punto-progreso"></span><span><?= limpiar($etapa) ?></span></div>
         <?php endforeach; ?>
       </div>
+      <?php endif; ?>
       <section class="tarjeta-envio" aria-label="Detalles del envío">
         <div class="resumen-envio">
           <div class="encabezado-envio"><h2><?= limpiar($envio['codigo_envio']) ?></h2><span class="etiqueta-estado"><?= limpiar(estadoLegible($envio['estado'])) ?></span></div>

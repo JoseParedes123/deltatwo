@@ -10,9 +10,8 @@ $rolesPersonal = ['ADMINISTRADOR', 'OPERADOR_DEPOSITO', 'ADMINISTRACION'];
 $error = '';
 $mensaje = mensajeFlasheado() ?? '';
 $datos = ['codigo' => '', 'estado' => 'REGISTRADO', 'sucursal' => '', 'provincia' => '', 'detalle' => ''];
-// Sucursales del corredor norte bonaerense incluidas en el relevamiento.
+// Sucursales confirmadas del corredor norte de la provincia de Buenos Aires.
 $sucursales = [
-    'olivos_escoces' => ['localidad' => 'Olivos', 'direccion' => 'El Escocés Boutique (dirección a confirmar)', 'provincia' => 'Buenos Aires'],
     'olivos_maipu_2683' => ['localidad' => 'Olivos', 'direccion' => 'Avenida Maipú 2683', 'provincia' => 'Buenos Aires'],
     'olivos_maipu_3028' => ['localidad' => 'Olivos', 'direccion' => 'Avenida Maipú 3028', 'provincia' => 'Buenos Aires'],
     'olivos_uruguay_1841' => ['localidad' => 'Olivos', 'direccion' => 'Calle Uruguay 1841', 'provincia' => 'Buenos Aires'],
@@ -34,12 +33,6 @@ $sucursales = [
     'san_martin_belgrano_4514' => ['localidad' => 'San Martín', 'direccion' => 'Calle Belgrano 4514', 'provincia' => 'Buenos Aires'],
     'san_martin_pellegrini_1980' => ['localidad' => 'San Martín', 'direccion' => 'Calle Pellegrini 1980', 'provincia' => 'Buenos Aires'],
     'tigre_cazon_1140' => ['localidad' => 'Tigre', 'direccion' => 'Avenida Cazón 1140', 'provincia' => 'Buenos Aires'],
-    'zona_norte_el_indio_176' => ['localidad' => 'Zona norte (localidad a confirmar)', 'direccion' => 'Calle El Indio 176', 'provincia' => 'Buenos Aires'],
-    'zona_norte_mayo_411' => ['localidad' => 'Zona norte (localidad a confirmar)', 'direccion' => 'Avenida de Mayo 411', 'provincia' => 'Buenos Aires'],
-    'zona_norte_pagano_6671' => ['localidad' => 'Zona norte (localidad a confirmar)', 'direccion' => 'Avenida Pagano 6671', 'provincia' => 'Buenos Aires'],
-    'zona_norte_saavedra_2599' => ['localidad' => 'Zona norte (localidad a confirmar)', 'direccion' => 'Calle Saavedra 2599', 'provincia' => 'Buenos Aires'],
-    'zona_norte_sin_nombre_2814' => ['localidad' => 'Zona norte (localidad a confirmar)', 'direccion' => 'Calle (nombre a confirmar) 2814', 'provincia' => 'Buenos Aires'],
-    'zona_norte_mayo_1501' => ['localidad' => 'Zona norte (localidad a confirmar)', 'direccion' => 'Avenida de Mayo 1501', 'provincia' => 'Buenos Aires'],
 ];
 
 // Este archivo procesa el acceso del personal y las actualizaciones del recorrido.
@@ -60,7 +53,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $error = 'Credenciales incorrectas o cuenta sin permisos de personal.';
         } catch (Throwable $exception) {
             error_log($exception->getMessage());
-            $error = 'No pudimos iniciar sesión. Revisá que MySQL esté activo.';
+            $error = 'No pudimos iniciar sesión en este momento. Intentá nuevamente más tarde.';
         }
     } elseif ($accion === 'logout') {
         $_SESSION = [];
@@ -96,7 +89,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             } catch (Throwable $exception) {
                 if ($db && $db->inTransaction()) $db->rollBack();
                 error_log($exception->getMessage());
-                $error = 'No pudimos guardar el movimiento. Revisá que MySQL esté activo.';
+                $error = 'No pudimos guardar el movimiento en este momento. Intentá nuevamente más tarde.';
             }
         }
     } else {
@@ -112,7 +105,7 @@ if ($usuarioActual && in_array($usuarioActual['rol'], $rolesPersonal, true)) {
         $envios = (new EnvioDAO())->obtenerParaPanel();
     } catch (Throwable $exception) {
         error_log($exception->getMessage());
-        $error = 'No pudimos cargar los envíos. Revisá la conexión con MySQL.';
+        $error = 'No pudimos cargar los envíos en este momento. Intentá recargar la página.';
     }
 }
 $datos['codigo'] = $_GET['codigo'] ?? $datos['codigo'];
