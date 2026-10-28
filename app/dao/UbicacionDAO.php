@@ -2,14 +2,14 @@
 
 require_once __DIR__ . '/../config/Conexion.php';
 
+// centraliza la consulta y actualizacion de ubicaciones en depositos.
 class UbicacionDAO
 {
     private PDO $db;
 
-    public function __construct()
+    public function __construct(?PDO $db = null)
     {
-        // Conexion compartida para las consultas de ubicaciones.
-        $this->db = (new Conexion())->conectar();
+        $this->db = $db ?? (new Conexion())->conectar();
     }
 
     // Devuelve las ubicaciones de un deposito (sector, estante y posicion).

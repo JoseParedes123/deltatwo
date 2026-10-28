@@ -2,14 +2,14 @@
 
 require_once __DIR__ . '/../config/Conexion.php';
 
+// centraliza la consulta y administracion de rutas de reparto.
 class RutaDAO
 {
     private PDO $db;
 
-    public function __construct()
+    public function __construct(?PDO $db = null)
     {
-        // Conexion compartida para las consultas de rutas.
-        $this->db = (new Conexion())->conectar();
+        $this->db = $db ?? (new Conexion())->conectar();
     }
 
     // Trae todas las rutas junto con la patente del vehiculo y el nombre del chofer.

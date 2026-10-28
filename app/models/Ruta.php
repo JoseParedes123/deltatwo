@@ -1,5 +1,6 @@
 <?php
 
+// representa una ruta de reparto, su vehiculo y su chofer asignado.
 class Ruta
 {
     public function __construct(

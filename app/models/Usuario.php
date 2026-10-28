@@ -1,5 +1,6 @@
 <?php
 
+// representa la cuenta, el perfil y el rol de una persona.
 class Usuario
 {
     public function __construct(

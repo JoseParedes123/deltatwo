@@ -1,5 +1,6 @@
 <?php
 
+// representa un paquete con sus dimensiones y tipo de mercaderia.
 class Paquete
 {
     public function __construct(

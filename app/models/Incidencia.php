@@ -1,5 +1,6 @@
 <?php
 
+// representa una incidencia registrada durante un envio.
 class Incidencia
 {
     public function __construct(

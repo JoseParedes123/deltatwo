@@ -2,6 +2,7 @@
 
 require_once __DIR__ . '/../config/Conexion.php';
 
+// centraliza el acceso a usuarios y la validacion de sus credenciales.
 class UsuarioDAO
 {
     private PDO $db;

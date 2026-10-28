@@ -1,5 +1,6 @@
 <?php
 
+// representa un comprobante emitido para un envio.
 class Comprobante
 {
     public function __construct(

@@ -124,6 +124,7 @@ $datos['codigo'] = $_GET['codigo'] ?? $datos['codigo'];
     <h1><?= limpiar(t('Panel de operaciones')) ?></h1>
     <p class="bajada"><?= limpiar(t('Actualizá el estado y la sucursal para que el cliente pueda consultar el recorrido de su paquete.')) ?></p>
 
+    <!-- La vista cambia entre el acceso del personal y las herramientas operativas. -->
     <?php if (!$usuarioActual || !in_array($usuarioActual['rol'], $rolesPersonal, true)): ?>
       <section class="panel-operaciones">
         <h2><?= limpiar(t('Acceso de personal')) ?></h2>

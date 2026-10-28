@@ -1,5 +1,6 @@
 <?php
 
+// representa el cambio de ubicacion interna de un paquete.
 class MovimientoDeposito
 {
     public function __construct(

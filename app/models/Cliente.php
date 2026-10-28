@@ -1,5 +1,6 @@
 <?php
 
+// representa los datos del cliente asociados a una cuenta de usuario.
 class Cliente
 {
     public function __construct(

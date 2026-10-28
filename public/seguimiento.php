@@ -52,6 +52,7 @@ $avisosEstado = [
 <body>
   <?php include __DIR__ . '/partials/nav.php'; ?>
   <main class="contenedor pagina-seguimiento">
+    <!-- Debajo del formulario se muestran el estado y los movimientos encontrados. -->
     <h1><?= limpiar(t('Seguimiento de envíos')) ?></h1>
     <p class="bajada"><?= limpiar(t('Ingresá el código de tu envío para conocer su estado y dónde está ubicado.')) ?></p>
     <form class="formulario-seguimiento" method="get">

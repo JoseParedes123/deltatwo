@@ -2,14 +2,14 @@
 
 require_once __DIR__ . '/../config/Conexion.php';
 
+// centraliza las consultas y cambios de datos relacionados con choferes.
 class ChoferDAO
 {
     private PDO $db;
 
-    public function __construct()
+    public function __construct(?PDO $db = null)
     {
-        // Conexion compartida para las consultas de choferes.
-        $this->db = (new Conexion())->conectar();
+        $this->db = $db ?? (new Conexion())->conectar();
     }
 
     // Trae todos los choferes junto con los datos de su usuario.

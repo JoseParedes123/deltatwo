@@ -14,6 +14,7 @@ require_once __DIR__ . '/../app/helpers/funciones.php';
 <body>
 	<?php include __DIR__ . '/partials/nav.php'; ?>
 	<main>
+		<!-- La portada presenta la marca y después resume la empresa y su alcance. -->
 		<section class="portada-inicio" aria-labelledby="home-title">
 			<div class="contenedor marca-destacada"><div><h1 id="home-title"><span><?= limpiar(t('Logística')) ?></span><span>Delta</span></h1><p><?= limpiar(t('Envíos rápidos y seguros')) ?></p><a class="boton-principal boton-seguimiento-portada" href="seguimiento.php"><?= limpiar(t('Seguí tu envío')) ?></a></div></div>
 		</section>

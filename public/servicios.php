@@ -11,6 +11,7 @@
 <body>
   <?php include __DIR__ . '/partials/nav.php'; ?>
   <main>
+    <!-- El encabezado introduce la página y la grilla resume cada servicio. -->
     <div class="titulo-cinta">
       <h1><?= limpiar(t('Servicios')) ?></h1>
     </div>

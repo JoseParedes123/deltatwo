@@ -1,5 +1,6 @@
 <?php
 
+// representa un envio y reúne sus datos principales de seguimiento.
 class Envio
 {
     private int $idEnvio;

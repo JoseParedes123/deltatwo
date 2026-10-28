@@ -2,14 +2,14 @@
 
 require_once __DIR__ . '/../config/Conexion.php';
 
+// centraliza las consultas y el registro de comprobantes de envio.
 class ComprobanteDAO
 {
     private PDO $db;
 
-    public function __construct()
+    public function __construct(?PDO $db = null)
     {
-        // Conexion compartida para las consultas de comprobantes.
-        $this->db = (new Conexion())->conectar();
+        $this->db = $db ?? (new Conexion())->conectar();
     }
 
     // Busca un comprobante puntual.

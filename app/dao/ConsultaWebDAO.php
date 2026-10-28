@@ -2,6 +2,7 @@
 
 require_once __DIR__ . '/../config/Conexion.php';
 
+// guarda las consultas que llegan desde el formulario publico.
 class ConsultaWebDAO
 {
     private PDO $db;

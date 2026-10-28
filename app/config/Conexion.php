@@ -2,6 +2,7 @@
 // Clase encargada de crear la conexion a MySQL usando PDO.
 class Conexion
 {
+    // Centraliza los parámetros y la instancia PDO usada por los DAO.
     // Datos de acceso para XAMPP/MySQL local.
     private string $host = 'localhost';
     private string $dbName = 'logistica_delta';

@@ -1,5 +1,6 @@
 <?php
 
+// representa un deposito y su estado de disponibilidad.
 class Deposito
 {
     public function __construct(

@@ -1,5 +1,6 @@
 <?php
 
+// representa un vehiculo y sus capacidades operativas.
 class Vehiculo
 {
     public function __construct(

@@ -11,7 +11,8 @@
 <body>
   <?php include __DIR__ . '/partials/nav.php'; ?>
   <main class="pagina-redes">
-    <section class="contenedor contenido-redes">
+<!-- Reúne los accesos externos y los datos de contacto de la empresa. -->
+<section class="contenedor contenido-redes">
       <h1><?= limpiar(t('Contactanos')) ?></h1>
       <nav class="enlaces-redes" aria-label="<?= limpiar(t('Redes y correo')) ?>">
         <a href="https://www.facebook.com/" target="_blank" rel="noreferrer">

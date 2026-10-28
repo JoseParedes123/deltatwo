@@ -56,6 +56,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <body>
   <?php include __DIR__ . '/partials/nav.php'; ?>
   <main class="disposicion-acceso disposicion-registro">
+    <!-- El formulario crea la cuenta y el perfil de cliente asociado. -->
     <section class="lateral-formulario">
       <form class="formulario-acceso" method="post">
         <h1><?= limpiar(t('Registrarse')) ?></h1><p class="subtitulo"><?= limpiar(t('Completá tus datos para crear una cuenta.')) ?></p>

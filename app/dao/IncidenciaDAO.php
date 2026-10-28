@@ -2,14 +2,14 @@
 
 require_once __DIR__ . '/../config/Conexion.php';
 
+// centraliza las consultas y cambios de estado de las incidencias.
 class IncidenciaDAO
 {
     private PDO $db;
 
-    public function __construct()
+    public function __construct(?PDO $db = null)
     {
-        // Conexion compartida para las consultas de incidencias.
-        $this->db = (new Conexion())->conectar();
+        $this->db = $db ?? (new Conexion())->conectar();
     }
 
     // Trae todas las incidencias junto con el codigo del envio.

@@ -2,6 +2,7 @@
 
 require_once __DIR__ . '/../config/Conexion.php';
 
+// centraliza el registro y la consulta de paquetes.
 class PaqueteDAO
 {
     private PDO $db;

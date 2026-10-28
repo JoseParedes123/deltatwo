@@ -1,5 +1,6 @@
 <?php
 
+// representa una posicion dentro de un deposito y si esta ocupada.
 class Ubicacion
 {
     public function __construct(

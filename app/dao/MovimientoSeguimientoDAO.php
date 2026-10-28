@@ -2,6 +2,7 @@
 
 require_once __DIR__ . '/../config/Conexion.php';
 
+// registra y consulta los movimientos visibles en el seguimiento publico.
 class MovimientoSeguimientoDAO
 {
     private PDO $db;

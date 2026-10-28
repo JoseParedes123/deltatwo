@@ -1,5 +1,6 @@
 <?php
 
+// representa un evento de auditoria con los valores modificados.
 class Historial
 {
     public function __construct(

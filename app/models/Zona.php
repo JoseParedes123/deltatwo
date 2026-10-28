@@ -1,5 +1,6 @@
 <?php
 
+// representa una zona de cobertura y su disponibilidad.
 class Zona
 {
     public function __construct(

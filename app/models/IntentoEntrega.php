@@ -1,5 +1,6 @@
 <?php
 
+// representa un intento de entrega y el resultado obtenido.
 class IntentoEntrega
 {
     public function __construct(

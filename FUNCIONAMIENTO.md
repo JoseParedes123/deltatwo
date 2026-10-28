@@ -28,6 +28,8 @@ database/                                               Tablas y registros de ej
 
 La página PHP recibe el formulario y valida la sesión y los campos. Después llama al DAO que corresponde; el DAO ejecuta el SQL preparado. En operaciones que escriben en varias tablas, la página comparte una conexión PDO entre DAOs y maneja una transacción para guardar todo junto.
 
+Todos los DAO pueden recibir esa conexión PDO al crearse. Si no se les pasa una, abren la conexión configurada en `Conexion`; así las páginas simples siguen igual y los flujos con transacciones comparten la misma conexión.
+
 ```text
 formulario → página PHP del apartado → DAO → MySQL
                   ↑                    ↓
@@ -57,6 +59,10 @@ No hay una carpeta `api`: las acciones pertenecen al archivo de la pantalla que 
 ### Contacto
 
 `contacto.php` valida el mensaje, `EnvioDAO` asocia un código si se indicó y `ConsultaWebDAO` guarda la consulta.
+
+### Idioma
+
+`funciones.php` guarda la preferencia de idioma en la sesión y ofrece `t()` para traducir los textos de la interfaz. El diccionario inglés vive en `app/lang/en.php`; si una frase todavía no tiene traducción, se muestra en español.
 
 ## Archivos para explicar en clase
 

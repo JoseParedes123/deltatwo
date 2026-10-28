@@ -2,6 +2,7 @@
 
 require_once __DIR__ . '/../config/Conexion.php';
 
+// centraliza los datos de remitentes y destinatarios de los envios.
 class ContactoDAO
 {
     private PDO $db;

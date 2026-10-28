@@ -2,6 +2,7 @@
 
 require_once __DIR__ . '/../config/Conexion.php';
 
+// centraliza las consultas y operaciones de registro de clientes.
 class ClienteDAO
 {
     private PDO $db;

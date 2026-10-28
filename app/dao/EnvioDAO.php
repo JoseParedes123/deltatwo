@@ -3,6 +3,7 @@
 require_once __DIR__ . '/../config/Conexion.php';
 require_once __DIR__ . '/../models/Envio.php';
 
+// concentra las consultas y operaciones principales del ciclo de un envio.
 class EnvioDAO
 {
     private PDO $db;

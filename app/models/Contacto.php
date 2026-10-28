@@ -1,5 +1,6 @@
 <?php
 
+// representa al remitente o destinatario vinculado a un envio.
 class Contacto
 {
     public function __construct(

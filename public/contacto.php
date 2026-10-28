@@ -55,6 +55,7 @@ $mensaje = mensajeFlasheado() ?? '';
 <body>
   <?php include __DIR__ . '/partials/nav.php'; ?>
   <main>
+    <!-- La página combina los canales de atención con el formulario de consulta. -->
     <div class="titulo-cinta">
       <h1><?= limpiar(t('Contacto')) ?></h1>
     </div>

@@ -39,6 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <body>
   <?php include __DIR__ . '/partials/nav.php'; ?>
   <main class="disposicion-acceso">
+    <!-- El formulario de acceso comparte su composición con la pantalla de registro. -->
     <section class="lateral-formulario">
       <form class="formulario-acceso" method="post">
         <h1><?= limpiar(t('Iniciar sesión')) ?></h1>

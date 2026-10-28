@@ -2,14 +2,14 @@
 
 require_once __DIR__ . '/../config/Conexion.php';
 
+// centraliza el historial interno de ubicaciones de cada paquete.
 class MovimientoDepositoDAO
 {
     private PDO $db;
 
-    public function __construct()
+    public function __construct(?PDO $db = null)
     {
-        // Conexion compartida para las consultas de movimientos del deposito.
-        $this->db = (new Conexion())->conectar();
+        $this->db = $db ?? (new Conexion())->conectar();
     }
 
     // Recorrido interno de un paquete: de la ubicacion anterior a la nueva, quien y cuando.

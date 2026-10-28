@@ -1,5 +1,6 @@
 <!-- Pie reutilizado por las páginas públicas y de cuenta. -->
 <footer class="pie-compartido">
+  <!-- El pie reúne enlaces institucionales y carga el menú adaptable. -->
   <div class="contenedor grilla-pie">
     <div class="marca-pie">
       <a class="marca" href="index.php" aria-label="Logística Delta, inicio">

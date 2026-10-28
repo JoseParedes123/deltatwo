@@ -2,6 +2,7 @@
 
 require_once __DIR__ . '/../config/Conexion.php';
 
+// centraliza la consulta y administracion de tarifas por zona y servicio.
 class TarifaDAO
 {
     private PDO $db;

@@ -1,5 +1,6 @@
 <?php
 
+// representa una tarifa vigente para una zona y un tipo de envio.
 class Tarifa
 {
     public function __construct(

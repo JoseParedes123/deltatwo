@@ -1,6 +1,7 @@
 -- Corrige la cuenta de ejemplo y crea un administrador para una base ya importada.
 -- Ejecutar desde phpMyAdmin con la base logistica_delta seleccionada.
 
+-- Restablece las cuentas de práctica sin duplicar el administrador.
 UPDATE usuarios
 SET password_hash = SHA2('123456', 256), activo = 1
 WHERE nombre_usuario = 'operador';

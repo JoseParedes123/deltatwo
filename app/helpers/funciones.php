@@ -8,6 +8,7 @@ function iniciarSesion(): void
     }
 }
 
+// Mantiene el idioma elegido en la sesion y prepara los textos de la interfaz.
 function idiomaActual(): string
 {
     iniciarSesion();
@@ -40,6 +41,7 @@ function t(string $texto): string
     return $traduccionesEn[$texto] ?? $texto;
 }
 
+// Reune los datos basicos de la sesion y protege las pantallas por rol.
 function usuarioActual(): ?array
 {
     iniciarSesion();

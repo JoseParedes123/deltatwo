@@ -93,6 +93,7 @@ try {
 <body>
   <?php include __DIR__ . '/partials/nav.php'; ?>
   <main class="contenedor pagina-cuenta">
+    <!-- El cliente puede solicitar un envío y consultar los que ya tiene asociados. -->
     <div class="titulo-cinta"><h1><?= limpiar(t('Mis envíos')) ?></h1></div>
     <p class="introduccion-pagina"><?= limpiar(t('Hola, ')) ?><?= limpiar($usuario['nombre']) ?><?= limpiar(t('. Acá podés solicitar y consultar tus envíos.')) ?></p>
     <?php if ($mensaje): ?><p class="respuesta-operaciones" role="status"><?= limpiar($mensaje) ?></p><?php endif; ?>

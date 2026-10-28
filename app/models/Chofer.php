@@ -1,5 +1,6 @@
 <?php
 
+// representa los datos de un chofer y su informacion de licencia.
 class Chofer
 {
     public function __construct(
