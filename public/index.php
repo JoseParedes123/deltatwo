@@ -8,6 +8,7 @@ require_once __DIR__ . '/../app/helpers/funciones.php';
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="theme-color" content="#073486">
+  <link rel="icon" type="image/png" href="media/favicon.png">
 	<title>Logística Delta | <?= limpiar(t('Envíos rápidos y seguros')) ?></title>
 	<link rel="stylesheet" href="css/style.css">
 </head>

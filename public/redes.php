@@ -8,6 +8,7 @@
   <title><?= limpiar(t('Contactanos')) ?> | Logística Delta</title>
   <link rel="stylesheet" href="css/style.css">
 </head>
+  <link rel="icon" type="image/png" href="media/favicon.png">
 <body>
   <?php include __DIR__ . '/partials/nav.php'; ?>
   <main class="pagina-redes">

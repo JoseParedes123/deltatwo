@@ -108,6 +108,7 @@ $datos['codigo'] = $_GET['codigo'] ?? $datos['codigo'];
 <html lang="<?= limpiar(idiomaActual()) ?>">
 <head>
   <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/png" href="media/favicon.png">
   <meta name="theme-color" content="#073486"><title><?= limpiar(t('Operaciones')) ?> | Logística Delta</title>
   <link rel="stylesheet" href="css/style.css">
 </head>
