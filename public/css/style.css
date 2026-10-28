@@ -1081,3 +1081,54 @@ button, a { -webkit-tap-highlight-color: transparent; }
   .portada-inicio, .marca-destacada { min-height: max(600px, calc(100svh - 76px)); }
   .boton-seguimiento-portada { margin-top: 18px; padding-inline: 26px; }
 }
+
+/* Menú de cuenta que se abre desde el icono de persona. */
+.solo-lectores { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+.menu-cuenta { position: relative; flex: 0 0 auto; }
+.menu-cuenta > summary { display: grid; width: 44px; height: 44px; place-items: center; border: 1px solid rgba(255,255,255,.72); border-radius: 50%; color: #fff; cursor: pointer; list-style: none; transition: background-color .18s ease, border-color .18s ease; }
+.menu-cuenta > summary::-webkit-details-marker { display: none; }
+.menu-cuenta > summary:hover, .menu-cuenta[open] > summary { border-color: var(--celeste); background: rgba(255,255,255,.14); }
+.menu-cuenta > summary:focus-visible, .contenido-menu-cuenta a:focus-visible, .contenido-menu-cuenta button:focus-visible { outline: 3px solid #8ce4f7; outline-offset: 3px; }
+.menu-cuenta > summary svg { width: 23px; height: 23px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.contenido-menu-cuenta { position: absolute; z-index: 30; top: calc(100% + 12px); right: 0; display: grid; width: min(250px, calc(100vw - 32px)); gap: 5px; padding: 10px; border: 1px solid #d8e4f2; border-radius: 14px; background: #fff; box-shadow: 0 14px 34px rgba(3,31,79,.2); }
+.nombre-menu-cuenta { padding: 9px 10px 11px; border-bottom: 1px solid #e5edf6; color: #536781; font-size: .9rem; font-weight: 700; }
+.contenido-menu-cuenta a, .contenido-menu-cuenta button { display: block; width: 100%; padding: 11px 10px; border: 0; border-radius: 9px; background: transparent; color: var(--azul); font: 700 .92rem var(--fuente-cuerpo); text-align: left; text-decoration: none; cursor: pointer; }
+.contenido-menu-cuenta a:hover { background: #eef7fb; }
+.contenido-menu-cuenta form { margin: 0; }
+.contenido-menu-cuenta button { background: var(--celeste); color: #fff; }
+.contenido-menu-cuenta button:hover { background: #0789b0; }
+.icono-contacto svg { display: block; width: 25px; height: 25px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+@media (max-width: 620px) {
+  .menu-cuenta > summary { width: 40px; height: 40px; }
+  .menu-cuenta > summary svg { width: 21px; height: 21px; }
+  .contenido-menu-cuenta { top: calc(100% + 9px); }
+}
+
+/* Los iconos de contacto se destacan sin el recuadro celeste. */
+.icono-contacto {
+  width: 58px;
+  height: 58px;
+  flex-basis: 58px;
+  padding: 0;
+  border-radius: 0;
+  background: transparent;
+  color: var(--azul);
+  place-items: center;
+  align-self: center;
+}
+.icono-contacto svg { width: 38px; height: 38px; }
+@media (max-width: 700px) {
+  .icono-contacto { width: 52px; height: 52px; flex-basis: 52px; }
+  .icono-contacto svg { width: 34px; height: 34px; }
+}
+
+/* Alinea el contenido de contacto a la izquierda y lo centra en altura. */
+.elemento-contacto {
+  justify-content: flex-start;
+  padding-left: clamp(28px, 5vw, 52px);
+  text-align: left;
+}
+.elemento-contacto > span:last-child { text-align: left; }
+@media (max-width: 700px) {
+  .elemento-contacto { padding-left: 24px; }
+}

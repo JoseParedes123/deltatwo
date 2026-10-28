@@ -5,8 +5,6 @@ require_once __DIR__ . '/../app/dao/UsuarioDAO.php';
 require_once __DIR__ . '/../app/dao/EnvioDAO.php';
 require_once __DIR__ . '/../app/dao/MovimientoSeguimientoDAO.php';
 iniciarSesion();
-$idiomaPanel = idiomaActual();
-
 $rolesPersonal = ['ADMINISTRADOR', 'OPERADOR_DEPOSITO', 'ADMINISTRACION'];
 $error = '';
 $mensaje = mensajeFlasheado() ?? '';
@@ -56,11 +54,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             error_log($exception->getMessage());
             $error = t('No pudimos iniciar sesión en este momento. Intentá nuevamente más tarde.');
         }
-    } elseif ($accion === 'logout') {
-        $_SESSION = [];
-        $_SESSION['idioma'] = $idiomaPanel;
-        header('Location: panel-admin.php?lang=' . urlencode($idiomaPanel));
-        exit;
     } elseif ($accion === 'actualizar' && in_array($_SESSION['rol'] ?? '', $rolesPersonal, true)) {
         foreach ($datos as $campo => $valor) $datos[$campo] = trim($_POST[$campo] ?? $valor);
         $estados = ['REGISTRADO', 'RECIBIDO_DEPOSITO', 'PREPARADO', 'EN_TRANSITO', 'EN_REPARTO', 'ENTREGADO', 'NO_ENTREGADO', 'DEVUELTO', 'EXTRAVIADO', 'CANCELADO'];
@@ -139,7 +132,6 @@ $datos['codigo'] = $_GET['codigo'] ?? $datos['codigo'];
     <?php else: ?>
       <div class="barra-operaciones">
         <p><?= limpiar(t('Hola, ')) ?><?= limpiar($usuarioActual['nombre']) ?> · <?= limpiar(t(str_replace('_', ' ', strtolower($usuarioActual['rol']))) ) ?></p>
-        <form method="post"><input type="hidden" name="accion" value="logout"><button class="salida-operaciones" type="submit"><?= limpiar(t('Cerrar sesión')) ?></button></form>
       </div>
       <?php if ($error || $mensaje): ?><p class="respuesta-operaciones" role="status"><?= limpiar($error ?: $mensaje) ?></p><?php endif; ?>
       <div class="columnas-operaciones">

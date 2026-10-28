@@ -25,12 +25,25 @@ $idiomaNav = idiomaActual();
         <a href="<?= limpiar(urlIdioma('es')) ?>" lang="es" hreflang="es" aria-pressed="<?= $idiomaNav === 'es' ? 'true' : 'false' ?>">ES</a>
         <a href="<?= limpiar(urlIdioma('en')) ?>" lang="en" hreflang="en" aria-pressed="<?= $idiomaNav === 'en' ? 'true' : 'false' ?>">EN</a>
       </div>
-      <?php if ($usuarioNav && $usuarioNav['rol'] === 'CLIENTE'): ?>
-        <a class="enlace-acceso" href="envios.php"><?= limpiar(t('MI CUENTA')) ?></a>
-        <form method="post" action="logout.php?lang=<?= limpiar($idiomaNav) ?>"><button class="enlace-acceso" type="submit"><?= limpiar(t('CERRAR SESIÓN')) ?></button></form>
-      <?php elseif ($usuarioNav && in_array($usuarioNav['rol'], ['ADMINISTRADOR', 'OPERADOR_DEPOSITO', 'ADMINISTRACION'], true)): ?>
-        <a class="enlace-acceso" href="panel-admin.php"><?= limpiar(t('OPERACIONES')) ?></a>
-        <form method="post" action="logout.php?lang=<?= limpiar($idiomaNav) ?>"><button class="enlace-acceso" type="submit"><?= limpiar(t('CERRAR SESIÓN')) ?></button></form>
+      <?php if ($usuarioNav): ?>
+        <?php
+          $esClienteNav = $usuarioNav['rol'] === 'CLIENTE';
+          $enlaceCuentaNav = $esClienteNav ? 'envios.php' : 'panel-admin.php';
+          $textoCuentaNav = $esClienteNav ? t('MI CUENTA') : t('OPERACIONES');
+        ?>
+        <details class="menu-cuenta">
+          <summary aria-label="<?= limpiar(t('Abrir menú de cuenta')) ?>" title="<?= limpiar(t('Abrir menú de cuenta')) ?>">
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="8" r="4"></circle><path d="M4.5 21a7.5 7.5 0 0 1 15 0"></path></svg>
+            <span class="solo-lectores"><?= limpiar(t('Cuenta')) ?></span>
+          </summary>
+          <div class="contenido-menu-cuenta">
+            <span class="nombre-menu-cuenta"><?= limpiar($usuarioNav['nombre']) ?></span>
+            <a href="<?= limpiar($enlaceCuentaNav) ?>"><?= limpiar($textoCuentaNav) ?></a>
+            <form method="post" action="logout.php?lang=<?= limpiar($idiomaNav) ?>">
+              <button type="submit"><?= limpiar(t('CERRAR SESIÓN')) ?></button>
+            </form>
+          </div>
+        </details>
       <?php else: ?>
         <a class="enlace-acceso" href="login.php"><?= limpiar(t('INICIAR SESIÓN')) ?></a>
         <a class="enlace-acceso" href="registro.php"><?= limpiar(t('REGISTRARSE')) ?></a>

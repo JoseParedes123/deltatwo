@@ -18,6 +18,8 @@ return [
     'Registrarse' => 'Register',
     'Abrir navegación' => 'Open navigation',
     'Cerrar navegación' => 'Close navigation',
+    'Abrir menú de cuenta' => 'Open account menu',
+    'Cuenta' => 'Account',
     'Logística Delta, inicio' => 'Logística Delta, home',
     'Envíos rápidos y seguros en la provincia de Buenos Aires.' => 'Fast and secure shipping across Buenos Aires Province.',
     'Inicio' => 'Home',
