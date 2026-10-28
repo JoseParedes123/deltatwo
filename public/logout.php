@@ -1,6 +1,7 @@
 <?php
 require_once __DIR__ . '/../app/helpers/funciones.php';
 iniciarSesion();
+$idiomaSalida = idiomaActual();
 
 // Una visita normal a esta URL nunca debe cerrar la sesión.
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
@@ -14,5 +15,5 @@ if (ini_get('session.use_cookies')) {
     setcookie(session_name(), '', time() - 42000, $parametrosCookie['path'], $parametrosCookie['domain'], $parametrosCookie['secure'], $parametrosCookie['httponly']);
 }
 session_destroy();
-header('Location: index.php');
+header('Location: index.php?lang=' . urlencode($idiomaSalida));
 exit;

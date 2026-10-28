@@ -19,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $password = $_POST['password'] ?? '';
 
     if (!$campos['first-name'] || !$campos['last-name'] || !$email || !$campos['username'] || strlen($password) < 8) {
-        $error = 'Completá todos los campos y usá una contraseña de al menos 8 caracteres.';
+        $error = t('Completá todos los campos y usá una contraseña de al menos 8 caracteres.');
     } else {
         $db = null;
         try {
@@ -39,18 +39,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         } catch (Throwable $exception) {
             if ($db && $db->inTransaction()) $db->rollBack();
             $error = $exception->getCode() === '23000'
-                ? 'Ese email o nombre de usuario ya está registrado.'
-                : 'No pudimos crear la cuenta en este momento. Intentá nuevamente más tarde.';
+                ? t('Ese email o nombre de usuario ya está registrado.')
+                : t('No pudimos crear la cuenta en este momento. Intentá nuevamente más tarde.');
             error_log($exception->getMessage());
         }
     }
 }
 ?>
 <!doctype html>
-<html lang="es">
+<html lang="<?= limpiar(idiomaActual()) ?>">
 <head>
   <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#073486"><title>Registrarse | Logística Delta</title>
+  <meta name="theme-color" content="#073486"><title><?= limpiar(t('Registrarse')) ?> | Logística Delta</title>
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -58,18 +58,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <main class="disposicion-acceso disposicion-registro">
     <section class="lateral-formulario">
       <form class="formulario-acceso" method="post">
-        <h1>Registrarse</h1><p class="subtitulo">Completá tus datos para crear una cuenta.</p>
+        <h1><?= limpiar(t('Registrarse')) ?></h1><p class="subtitulo"><?= limpiar(t('Completá tus datos para crear una cuenta.')) ?></p>
         <?php if ($error): ?><p class="respuesta-formulario respuesta-acceso" role="alert"><?= limpiar($error) ?></p><?php endif; ?>
-        <div class="campo-entrada"><label for="first-name">Nombre</label><span class="icono-entrada" aria-hidden="true">●</span><input id="first-name" name="first-name" placeholder="Juan" autocomplete="given-name" required value="<?= limpiar($campos['first-name']) ?>"></div>
-        <div class="campo-entrada"><label for="last-name">Apellido</label><span class="icono-entrada" aria-hidden="true">●</span><input id="last-name" name="last-name" placeholder="Díaz" autocomplete="family-name" required value="<?= limpiar($campos['last-name']) ?>"></div>
+        <div class="campo-entrada"><label for="first-name"><?= limpiar(t('Nombre')) ?></label><span class="icono-entrada" aria-hidden="true">●</span><input id="first-name" name="first-name" placeholder="Juan" autocomplete="given-name" required value="<?= limpiar($campos['first-name']) ?>"></div>
+        <div class="campo-entrada"><label for="last-name"><?= limpiar(t('Apellido')) ?></label><span class="icono-entrada" aria-hidden="true">●</span><input id="last-name" name="last-name" placeholder="Díaz" autocomplete="family-name" required value="<?= limpiar($campos['last-name']) ?>"></div>
         <div class="campo-entrada"><label for="register-email">Email</label><span class="icono-entrada" aria-hidden="true">＠</span><input id="register-email" type="email" name="email" placeholder="juan.diaz@gmail.com" autocomplete="email" required value="<?= limpiar($campos['email']) ?>"></div>
-        <div class="campo-entrada"><label for="username">Usuario</label><span class="icono-entrada" aria-hidden="true">♙</span><input id="username" name="username" placeholder="Juanito" autocomplete="username" required value="<?= limpiar($campos['username']) ?>"></div>
-        <div class="campo-entrada"><label for="register-password">Contraseña</label><span class="icono-entrada" aria-hidden="true">▣</span><input id="register-password" type="password" name="password" placeholder="Mínimo 8 caracteres" autocomplete="new-password" minlength="8" required></div>
-        <button class="boton-principal boton-acceso" type="submit">Registrarse</button>
-        <p class="alternativa-acceso"><a class="enlace-texto" href="login.php">¿Ya tenés una cuenta? Iniciá sesión</a></p>
+        <div class="campo-entrada"><label for="username"><?= limpiar(t('Usuario')) ?></label><span class="icono-entrada" aria-hidden="true">♙</span><input id="username" name="username" placeholder="Juanito" autocomplete="username" required value="<?= limpiar($campos['username']) ?>"></div>
+        <div class="campo-entrada"><label for="register-password"><?= limpiar(t('Contraseña')) ?></label><span class="icono-entrada" aria-hidden="true">▣</span><input id="register-password" type="password" name="password" placeholder="<?= limpiar(t('Mínimo 8 caracteres')) ?>" autocomplete="new-password" minlength="8" required></div>
+        <button class="boton-principal boton-acceso" type="submit"><?= limpiar(t('Registrarse')) ?></button>
+        <p class="alternativa-acceso"><a class="enlace-texto" href="login.php"><?= limpiar(t('¿Ya tenés una cuenta? Iniciá sesión')) ?></a></p>
       </form>
     </section>
-    <aside class="foto-acceso" aria-label="Camión de Logística Delta"><div class="logo-acceso"><svg viewBox="0 0 100 100" aria-hidden="true"><path d="M50 8 92 84H8L50 8Z" fill="none" stroke="white" stroke-width="8"/><path d="m22 78 48-39M41 81l36-29M57 82l20-16" fill="none" stroke="white" stroke-width="5"/></svg>LOGÍSTICA DELTA</div></aside>
+    <aside class="foto-acceso" aria-label="<?= limpiar(t('Camión de Logística Delta')) ?>"><div class="logo-acceso"><svg viewBox="0 0 100 100" aria-hidden="true"><path d="M50 8 92 84H8L50 8Z" fill="none" stroke="white" stroke-width="8"/><path d="m22 78 48-39M41 81l36-29M57 82l20-16" fill="none" stroke="white" stroke-width="5"/></svg><?= limpiar(t('LOGÍSTICA DELTA')) ?></div></aside>
   </main>
   <?php include __DIR__ . '/partials/footer.php'; ?>
 </body>

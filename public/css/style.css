@@ -1010,6 +1010,47 @@ button, a { -webkit-tap-highlight-color: transparent; }
 }
 .tarjeta-servicio h2 { margin-bottom: 14px; }
 
+/* Selector de idioma visible en el encabezado, con el idioma activo resaltado. */
+.selector-idioma {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  flex: 0 0 auto;
+  padding: 3px;
+  border: 1px solid rgba(255,255,255,.3);
+  border-radius: 999px;
+  background: rgba(2,25,67,.18);
+}
+.selector-idioma a {
+  display: inline-flex;
+  min-width: 34px;
+  min-height: 32px;
+  align-items: center;
+  justify-content: center;
+  padding: 5px 8px;
+  border-radius: 999px;
+  color: rgba(255,255,255,.8);
+  font: 800 .72rem var(--fuente-titulos);
+  text-decoration: none;
+  transition: background-color .18s ease, color .18s ease;
+}
+.selector-idioma a:hover { background: rgba(255,255,255,.12); color: #fff; }
+.selector-idioma a[aria-pressed="true"] { background: #fff; color: var(--azul); }
+@media (max-width: 900px) {
+  .cuenta-navegacion { flex-wrap: nowrap; }
+  .selector-idioma { margin-right: 2px; }
+}
+@media (max-width: 620px) {
+  .selector-idioma { gap: 0; padding: 2px; }
+  .selector-idioma a { min-width: 29px; min-height: 30px; padding: 4px 5px; font-size: .65rem; }
+}
+@media (max-width: 380px) {
+  .barra-navegacion { width: calc(100% - 16px); gap: 4px; }
+  .cuenta-navegacion { gap: 2px; }
+  .selector-idioma a { min-width: 22px; padding-inline: 2px; }
+  .enlace-acceso { padding-inline: 3px; font-size: .56rem; }
+}
+
 
 /* Distingue el acceso del equipo desde la navegación principal. */
 .barra-navegacion .enlace-personal { padding: 9px 12px; border: 1px solid rgba(255,255,255,.7); border-radius: 999px; }

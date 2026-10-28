@@ -1,19 +1,19 @@
 <?php require_once __DIR__ . '/../app/helpers/funciones.php'; ?>
 <!doctype html>
-<html lang="es">
+<html lang="<?= limpiar(idiomaActual()) ?>">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#073486">
-  <title>Contactanos | Logística Delta</title>
+  <title><?= limpiar(t('Contactanos')) ?> | Logística Delta</title>
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
   <?php include __DIR__ . '/partials/nav.php'; ?>
   <main class="pagina-redes">
     <section class="contenedor contenido-redes">
-      <h1>Contactanos</h1>
-      <nav class="enlaces-redes" aria-label="Redes y correo">
+      <h1><?= limpiar(t('Contactanos')) ?></h1>
+      <nav class="enlaces-redes" aria-label="<?= limpiar(t('Redes y correo')) ?>">
         <a href="https://www.facebook.com/" target="_blank" rel="noreferrer">
           <span class="icono-redes" aria-hidden="true">f</span>
           Logistica.delta

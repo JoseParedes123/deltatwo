@@ -5,4 +5,5 @@ const navegacion = document.querySelector('.enlaces-navegacion');
 botonMenu?.addEventListener('click', () => {
   const estaAbierto = navegacion.classList.toggle('abierto');
   botonMenu.setAttribute('aria-expanded', String(estaAbierto));
+  botonMenu.setAttribute('aria-label', estaAbierto ? botonMenu.dataset.labelClose : botonMenu.dataset.labelOpen);
 });

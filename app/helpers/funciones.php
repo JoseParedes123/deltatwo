@@ -8,6 +8,38 @@ function iniciarSesion(): void
     }
 }
 
+function idiomaActual(): string
+{
+    iniciarSesion();
+    if (isset($_GET['lang']) && in_array($_GET['lang'], ['es', 'en'], true)) {
+        $_SESSION['idioma'] = $_GET['lang'];
+    }
+    return $_SESSION['idioma'] ?? 'es';
+}
+
+function urlIdioma(string $idioma): string
+{
+    $parametros = $_GET;
+    $parametros['lang'] = $idioma;
+    return '?' . http_build_query($parametros);
+}
+
+function t(string $texto): string
+{
+    static $idioma = null;
+    static $traduccionesEn = null;
+
+    // El idioma de la solicitud no cambia durante la carga de una página.
+    $idioma ??= idiomaActual();
+    if ($idioma !== 'en') {
+        return $texto;
+    }
+
+    $traduccionesEn ??= require __DIR__ . '/../lang/en.php';
+    // Si falta una traducción, muestra el texto original en vez de dejarlo vacío.
+    return $traduccionesEn[$texto] ?? $texto;
+}
+
 function usuarioActual(): ?array
 {
     iniciarSesion();
@@ -60,5 +92,5 @@ function estadoLegible(string $estado): string
         'NO_ENTREGADO' => 'No se pudo entregar', 'DEVUELTO' => 'Devuelto al remitente',
         'EXTRAVIADO' => 'En revisión', 'CANCELADO' => 'Cancelado',
     ];
-    return $estados[$estado] ?? 'En proceso';
+    return t($estados[$estado] ?? 'En proceso');
 }

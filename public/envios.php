@@ -25,7 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['accion'] ?? '') === 'solic
     $fragil = isset($_POST['fragil']);
 
     if (!$remitente || !$origen || !$destinatario || !$destino || !$descripcion || $peso === false || $peso <= 0 || !$idZona) {
-        $error = 'Completá los datos del envío y verificá el peso.';
+        $error = t('Completá los datos del envío y verificá el peso.');
     } else {
         $db = null;
         try {
@@ -41,9 +41,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['accion'] ?? '') === 'solic
             $cliente = $clienteDAO->obtenerPorUsuario($usuario['id_usuario']);
             $zona = $zonaDAO->obtenerPorId((int) $idZona);
             if (!$cliente) {
-                $error = 'La cuenta no tiene un perfil de cliente asociado.';
+                $error = t('La cuenta no tiene un perfil de cliente asociado.');
             } elseif (!$zona || !$zona['activo']) {
-                $error = 'Elegí una zona de entrega disponible.';
+                $error = t('Elegí una zona de entrega disponible.');
             } else {
                 $db->beginTransaction();
                 $tarifa = $tarifaDAO->obtenerVigente((int) $idZona, 'ESTANDAR');
@@ -59,14 +59,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['accion'] ?? '') === 'solic
                 $idEnvio = $envioDAO->crear($codigoEnvio, (int) $cliente['id_cliente'], $idRemitente, $idDestinatario, $idPaquete, (int) $idZona, $tarifa ? (int) $tarifa['id_tarifa'] : null, $precio, $fechaEstimada, $usuario['id_usuario']);
                 $movimientoDAO->crear($idEnvio, 'Centro de recepción Logística Delta', $zona['nombre'], 'Solicitud recibida. El paquete espera su recepción en sucursal.');
                 $db->commit();
-                $_SESSION['mensaje'] = "Solicitud registrada con el código {$codigoEnvio}.";
+                $_SESSION['mensaje'] = t('Solicitud registrada con el código ') . $codigoEnvio . '.';
                 header('Location: envios.php?codigo=' . urlencode($codigoEnvio));
                 exit;
             }
         } catch (Throwable $exception) {
             if ($db && $db->inTransaction()) $db->rollBack();
             error_log($exception->getMessage());
-            $error = 'No pudimos registrar el envío. Verificá la base de datos e intentá de nuevo.';
+            $error = t('No pudimos registrar el envío. Verificá la base de datos e intentá de nuevo.');
         }
     }
 }
@@ -80,57 +80,57 @@ try {
     error_log($exception->getMessage());
     $envios = [];
     $zonas = [];
-    $error = 'No pudimos cargar los datos de tu cuenta. Intentá recargar la página.';
+    $error = t('No pudimos cargar los datos de tu cuenta. Intentá recargar la página.');
 }
 ?>
 <!doctype html>
-<html lang="es">
+<html lang="<?= limpiar(idiomaActual()) ?>">
 <head>
   <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#073486"><title>Mis envíos | Logística Delta</title>
+  <meta name="theme-color" content="#073486"><title><?= limpiar(t('Mis envíos')) ?> | Logística Delta</title>
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
   <?php include __DIR__ . '/partials/nav.php'; ?>
   <main class="contenedor pagina-cuenta">
-    <div class="titulo-cinta"><h1>Mis envíos</h1></div>
-    <p class="introduccion-pagina">Hola, <?= limpiar($usuario['nombre']) ?>. Acá podés solicitar y consultar tus envíos.</p>
+    <div class="titulo-cinta"><h1><?= limpiar(t('Mis envíos')) ?></h1></div>
+    <p class="introduccion-pagina"><?= limpiar(t('Hola, ')) ?><?= limpiar($usuario['nombre']) ?><?= limpiar(t('. Acá podés solicitar y consultar tus envíos.')) ?></p>
     <?php if ($mensaje): ?><p class="respuesta-operaciones" role="status"><?= limpiar($mensaje) ?></p><?php endif; ?>
     <?php if ($error): ?><p class="respuesta-operaciones" role="alert"><?= limpiar($error) ?></p><?php endif; ?>
 
     <section class="solicitud-cuenta" aria-labelledby="request-title">
-      <h2 id="request-title">Solicitar un envío</h2>
-      <p>Completá los datos para registrar un envío dentro de la provincia de Buenos Aires.</p>
+      <h2 id="request-title"><?= limpiar(t('Solicitar un envío')) ?></h2>
+      <p><?= limpiar(t('Completá los datos para registrar un envío dentro de la provincia de Buenos Aires.')) ?></p>
       <form method="post" class="formulario-solicitud-envio">
         <input type="hidden" name="accion" value="solicitar">
-        <label>Nombre del remitente<input name="remitente" autocomplete="name" required maxlength="120" value="<?= limpiar($_POST['remitente'] ?? '') ?>"></label>
-        <label>Origen · localidad y provincia<input name="origen" placeholder="Olivos, Buenos Aires" required maxlength="200" value="<?= limpiar($_POST['origen'] ?? '') ?>"></label>
-        <label>Nombre del destinatario<input name="destinatario" required maxlength="120" value="<?= limpiar($_POST['destinatario'] ?? '') ?>"></label>
-        <label>Destino · localidad y provincia<input name="destino" placeholder="San Martín, Buenos Aires" required maxlength="200" value="<?= limpiar($_POST['destino'] ?? '') ?>"></label>
-        <label>Teléfono de contacto<input name="telefono" type="tel" maxlength="30" value="<?= limpiar($_POST['telefono'] ?? '') ?>"></label>
-        <label>Zona de entrega<select name="zona" required><option value="">Elegí una zona</option>
+        <label><?= limpiar(t('Nombre del remitente')) ?><input name="remitente" autocomplete="name" required maxlength="120" value="<?= limpiar($_POST['remitente'] ?? '') ?>"></label>
+        <label><?= limpiar(t('Origen · localidad y provincia')) ?><input name="origen" placeholder="<?= limpiar(t('Olivos, Buenos Aires')) ?>" required maxlength="200" value="<?= limpiar($_POST['origen'] ?? '') ?>"></label>
+        <label><?= limpiar(t('Nombre del destinatario')) ?><input name="destinatario" required maxlength="120" value="<?= limpiar($_POST['destinatario'] ?? '') ?>"></label>
+        <label><?= limpiar(t('Destino · localidad y provincia')) ?><input name="destino" placeholder="<?= limpiar(t('San Martín, Buenos Aires')) ?>" required maxlength="200" value="<?= limpiar($_POST['destino'] ?? '') ?>"></label>
+        <label><?= limpiar(t('Teléfono de contacto')) ?><input name="telefono" type="tel" maxlength="30" value="<?= limpiar($_POST['telefono'] ?? '') ?>"></label>
+        <label><?= limpiar(t('Zona de entrega')) ?><select name="zona" required><option value=""><?= limpiar(t('Elegí una zona')) ?></option>
           <?php foreach ($zonas as $zona): ?><option value="<?= (int) $zona['id_zona'] ?>" <?= (string) ($idZona ?? '') === (string) $zona['id_zona'] ? 'selected' : '' ?>><?= limpiar($zona['nombre']) ?></option><?php endforeach; ?>
         </select></label>
-        <label>Descripción del paquete<input name="descripcion" required maxlength="255" value="<?= limpiar($_POST['descripcion'] ?? '') ?>"></label>
-        <label>Peso (kg)<input name="peso" type="number" min="0.1" max="3000" step="0.1" required value="<?= limpiar($_POST['peso'] ?? '') ?>"></label>
-        <label class="opcion-fragil"><input name="fragil" type="checkbox" <?= isset($_POST['fragil']) ? 'checked' : '' ?>> Paquete frágil</label>
-        <button class="boton-principal" type="submit">Solicitar envío</button>
+        <label><?= limpiar(t('Descripción del paquete')) ?><input name="descripcion" required maxlength="255" value="<?= limpiar($_POST['descripcion'] ?? '') ?>"></label>
+        <label><?= limpiar(t('Peso (kg)')) ?><input name="peso" type="number" min="0.1" max="3000" step="0.1" required value="<?= limpiar($_POST['peso'] ?? '') ?>"></label>
+        <label class="opcion-fragil"><input name="fragil" type="checkbox" <?= isset($_POST['fragil']) ? 'checked' : '' ?>> <?= limpiar(t('Paquete frágil')) ?></label>
+        <button class="boton-principal" type="submit"><?= limpiar(t('Solicitar envío')) ?></button>
       </form>
     </section>
 
-    <section class="envios-cliente" aria-label="Tus envíos">
-      <?php if (!$envios): ?><p>Todavía no tenés envíos asociados a tu cuenta.</p><?php endif; ?>
+    <section class="envios-cliente" aria-label="<?= limpiar(t('Tus envíos')) ?>">
+      <?php if (!$envios): ?><p><?= limpiar(t('Todavía no tenés envíos asociados a tu cuenta.')) ?></p><?php endif; ?>
       <?php foreach ($envios as $envio): ?>
         <article class="tarjeta-envio-cliente">
           <h2><?= limpiar($envio['codigo_envio']) ?></h2>
-          <p>Estado: <?= limpiar(estadoLegible($envio['estado'])) ?></p>
-          <p>Destino: <?= limpiar($envio['destino']) ?> · <?= limpiar($envio['destinatario']) ?></p>
-          <p>Entrega estimada: <?= limpiar($envio['fecha_entrega_estimada'] ?: 'A confirmar') ?></p>
-          <a class="enlace-texto" href="seguimiento.php?codigo=<?= urlencode($envio['codigo_envio']) ?>">Ver seguimiento →</a>
+          <p><?= limpiar(t('Estado:')) ?> <?= limpiar(estadoLegible($envio['estado'])) ?></p>
+          <p><?= limpiar(t('Destino:')) ?> <?= limpiar($envio['destino']) ?> · <?= limpiar($envio['destinatario']) ?></p>
+          <p><?= limpiar(t('Entrega estimada:')) ?> <?= limpiar($envio['fecha_entrega_estimada'] ?: t('A confirmar')) ?></p>
+          <a class="enlace-texto" href="seguimiento.php?codigo=<?= urlencode($envio['codigo_envio']) ?>"><?= limpiar(t('Ver seguimiento →')) ?></a>
         </article>
       <?php endforeach; ?>
     </section>
-    <p class="enlace-seguimiento-cuenta"><a class="boton-principal" href="seguimiento.php">Seguir un envío sin iniciar sesión</a></p>
+    <p class="enlace-seguimiento-cuenta"><a class="boton-principal" href="seguimiento.php"><?= limpiar(t('Seguir un envío sin iniciar sesión')) ?></a></p>
   </main>
   <?php include __DIR__ . '/partials/footer.php'; ?>
 </body>
