@@ -3,26 +3,33 @@ require_once __DIR__ . '/../app/helpers/funciones.php';
 require_once __DIR__ . '/../app/dao/UsuarioDAO.php';
 iniciarSesion();
 
-if (($_SESSION['rol'] ?? '') === 'CLIENTE') {
+$rolesPersonal = ['ADMINISTRADOR', 'OPERADOR_DEPOSITO', 'ADMINISTRACION'];
+$rolSesion = $_SESSION['rol'] ?? '';
+if ($rolSesion === 'CLIENTE') {
     header('Location: envios.php');
+    exit;
+}
+if (in_array($rolSesion, $rolesPersonal, true)) {
+    header('Location: panel-admin.php');
     exit;
 }
 
 $error = '';
 $email = trim($_POST['email'] ?? '');
-// Comprueba las credenciales mediante el DAO y conserva el acceso en la sesión.
+// comprueba las credenciales mediante el dao y conserva el acceso en la sesión.
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {
         $usuario = (new UsuarioDAO())->validarLogin($email, $_POST['password'] ?? '');
-        if ($usuario && $usuario['rol'] === 'CLIENTE') {
+        if ($usuario && ($usuario['rol'] === 'CLIENTE' || in_array($usuario['rol'], $rolesPersonal, true))) {
             session_regenerate_id(true);
             $_SESSION['id_usuario'] = $usuario['id_usuario'];
             $_SESSION['nombre'] = $usuario['nombre'];
             $_SESSION['rol'] = $usuario['rol'];
-            header('Location: envios.php');
+            $destino = $usuario['rol'] === 'CLIENTE' ? 'envios.php' : 'panel-admin.php';
+            header('Location: ' . $destino);
             exit;
         }
-        $error = t('No pudimos iniciar sesión. Revisá tus datos o registrate como cliente.');
+        $error = t('Datos incorrectos o cuenta sin acceso.');
     } catch (Throwable $exception) {
         error_log($exception->getMessage());
         $error = t('No pudimos iniciar sesión en este momento. Intentá de nuevo más tarde.');
@@ -40,7 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <body>
   <?php include __DIR__ . '/partials/nav.php'; ?>
   <main class="disposicion-acceso">
-    <!-- El formulario de acceso comparte su composición con la pantalla de registro. -->
+    <!-- el formulario de acceso comparte su composición con la pantalla de registro. -->
     <section class="lateral-formulario">
       <form class="formulario-acceso" method="post">
         <h1><?= limpiar(t('Iniciar sesión')) ?></h1>
@@ -51,7 +58,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <div class="opciones-acceso"><span><?= limpiar(t('¿Necesitás ayuda?')) ?></span><a class="enlace-texto" href="contacto.php"><?= limpiar(t('Contactanos')) ?></a></div>
         <button class="boton-principal boton-acceso" type="submit"><?= limpiar(t('Iniciar sesión')) ?></button>
         <p class="alternativa-acceso"><a class="enlace-texto" href="registro.php"><?= limpiar(t('¿No tenés una cuenta? Registrate')) ?></a></p>
-        <p class="acceso-personal"><span><?= limpiar(t('¿Sos parte del personal?')) ?></span> <a class="enlace-texto" href="panel-admin.php"><?= limpiar(t('Ingresá al panel de operaciones')) ?></a></p>
       </form>
     </section>
     <aside class="foto-acceso" aria-label="<?= limpiar(t('Camión de Logística Delta')) ?>"><div class="logo-acceso"><svg viewBox="0 0 100 100" aria-hidden="true"><path d="M50 8 92 84H8L50 8Z" fill="none" stroke="white" stroke-width="8"/><path d="m22 78 48-39M41 81l36-29M57 82l20-16" fill="none" stroke="white" stroke-width="5"/></svg><?= limpiar(t('LOGÍSTICA DELTA')) ?></div></aside>

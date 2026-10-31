@@ -1,0 +1,9 @@
+<?php
+// copia este archivo como conexion.local.php y completa tus datos locales.
+return [
+    'host' => 'localhost',
+    'puerto' => '3306',
+    'base_datos' => 'logistica_delta',
+    'usuario' => 'root',
+    'clave' => '',
+];

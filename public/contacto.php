@@ -10,7 +10,7 @@ $error = '';
 $mensaje = '';
 $datos = ['name' => '', 'email' => '', 'codigo' => '', 'subject' => '', 'message' => ''];
 
-// Valida la consulta y la asocia a un envío o cliente cuando corresponde.
+// valida la consulta y la asocia a un envío o cliente cuando corresponde.
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     foreach ($datos as $campo => $valor) {
         $datos[$campo] = trim($_POST[$campo] ?? '');
@@ -56,7 +56,7 @@ $mensaje = mensajeFlasheado() ?? '';
 <body>
   <?php include __DIR__ . '/partials/nav.php'; ?>
   <main>
-    <!-- La página combina los canales de atención con el formulario de consulta. -->
+    <!-- la página combina los canales de atención con el formulario de consulta. -->
     <div class="titulo-cinta">
       <h1><?= limpiar(t('Contacto')) ?></h1>
     </div>

@@ -1,18 +1,22 @@
-<?php require_once __DIR__ . '/../app/helpers/funciones.php'; ?>
+<?php
+$paginaActual = 'redes';
+require_once __DIR__ . '/../app/helpers/funciones.php';
+iniciarSesion();
+?>
 <!doctype html>
 <html lang="<?= limpiar(idiomaActual()) ?>">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/png" href="media/favicon.png">
   <meta name="theme-color" content="#073486">
   <title><?= limpiar(t('Contactanos')) ?> | Logística Delta</title>
   <link rel="stylesheet" href="css/style.css">
 </head>
-  <link rel="icon" type="image/png" href="media/favicon.png">
 <body>
   <?php include __DIR__ . '/partials/nav.php'; ?>
   <main class="pagina-redes">
-<!-- Reúne los accesos externos y los datos de contacto de la empresa. -->
+<!-- reúne los accesos externos y los datos de contacto de la empresa. -->
 <section class="contenedor contenido-redes">
       <h1><?= limpiar(t('Contactanos')) ?></h1>
       <nav class="enlaces-redes" aria-label="<?= limpiar(t('Redes y correo')) ?>">

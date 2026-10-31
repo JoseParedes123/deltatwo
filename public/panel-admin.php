@@ -1,15 +1,27 @@
 <?php
 require_once __DIR__ . '/../app/helpers/funciones.php';
 require_once __DIR__ . '/../app/config/Conexion.php';
-require_once __DIR__ . '/../app/dao/UsuarioDAO.php';
 require_once __DIR__ . '/../app/dao/EnvioDAO.php';
 require_once __DIR__ . '/../app/dao/MovimientoSeguimientoDAO.php';
 iniciarSesion();
 $rolesPersonal = ['ADMINISTRADOR', 'OPERADOR_DEPOSITO', 'ADMINISTRACION'];
+$usuarioActual = usuarioActual();
+if (!$usuarioActual) {
+    header('Location: login.php');
+    exit;
+}
+if ($usuarioActual['rol'] === 'CLIENTE') {
+    header('Location: envios.php');
+    exit;
+}
+if (!in_array($usuarioActual['rol'], $rolesPersonal, true)) {
+    header('Location: login.php');
+    exit;
+}
 $error = '';
 $mensaje = mensajeFlasheado() ?? '';
 $datos = ['codigo' => '', 'estado' => 'REGISTRADO', 'sucursal' => '', 'provincia' => '', 'detalle' => ''];
-// Sucursales confirmadas del corredor norte de la provincia de Buenos Aires.
+// sucursales confirmadas del corredor norte de la provincia de buenos aires.
 $sucursales = [
     'olivos_maipu_2683' => ['localidad' => 'Olivos', 'direccion' => 'Avenida Maipú 2683', 'provincia' => 'Buenos Aires'],
     'olivos_maipu_3028' => ['localidad' => 'Olivos', 'direccion' => 'Avenida Maipú 3028', 'provincia' => 'Buenos Aires'],
@@ -34,27 +46,11 @@ $sucursales = [
     'tigre_cazon_1140' => ['localidad' => 'Tigre', 'direccion' => 'Avenida Cazón 1140', 'provincia' => 'Buenos Aires'],
 ];
 
-// Este archivo procesa el acceso del personal y las actualizaciones del recorrido.
+// procesa las actualizaciones de estado y recorrido del personal autenticado.
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $accion = $_POST['accion'] ?? '';
 
-    if ($accion === 'login') {
-        try {
-            $usuario = (new UsuarioDAO())->validarLogin(trim($_POST['usuario'] ?? ''), $_POST['password'] ?? '');
-            if ($usuario && in_array($usuario['rol'], $rolesPersonal, true)) {
-                session_regenerate_id(true);
-                $_SESSION['id_usuario'] = $usuario['id_usuario'];
-                $_SESSION['nombre'] = $usuario['nombre'];
-                $_SESSION['rol'] = $usuario['rol'];
-                header('Location: panel-admin.php');
-                exit;
-            }
-            $error = t('Credenciales incorrectas o cuenta sin permisos de personal.');
-        } catch (Throwable $exception) {
-            error_log($exception->getMessage());
-            $error = t('No pudimos iniciar sesión en este momento. Intentá nuevamente más tarde.');
-        }
-    } elseif ($accion === 'actualizar' && in_array($_SESSION['rol'] ?? '', $rolesPersonal, true)) {
+    if ($accion === 'actualizar' && in_array($_SESSION['rol'] ?? '', $rolesPersonal, true)) {
         foreach ($datos as $campo => $valor) $datos[$campo] = trim($_POST[$campo] ?? $valor);
         $estados = ['REGISTRADO', 'RECIBIDO_DEPOSITO', 'PREPARADO', 'EN_TRANSITO', 'EN_REPARTO', 'ENTREGADO', 'NO_ENTREGADO', 'DEVUELTO', 'EXTRAVIADO', 'CANCELADO'];
         if (!in_array($datos['estado'], $estados, true) || !$datos['codigo']
@@ -87,13 +83,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
         }
     } else {
-        $error = 'Iniciá sesión con una cuenta de personal para realizar esa acción.';
+        $error = t('La acción solicitada no es válida.');
     }
 }
 
-$usuarioActual = usuarioActual();
+
 $envios = [];
-// Solo el personal autorizado puede consultar el listado de operaciones.
+// solo el personal autorizado puede consultar el listado de operaciones.
 if ($usuarioActual && in_array($usuarioActual['rol'], $rolesPersonal, true)) {
     try {
         $envios = (new EnvioDAO())->obtenerParaPanel();
@@ -118,19 +114,7 @@ $datos['codigo'] = $_GET['codigo'] ?? $datos['codigo'];
     <h1><?= limpiar(t('Panel de operaciones')) ?></h1>
     <p class="bajada"><?= limpiar(t('Actualizá el estado y la sucursal para que el cliente pueda consultar el recorrido de su paquete.')) ?></p>
 
-    <!-- La vista cambia entre el acceso del personal y las herramientas operativas. -->
-    <?php if (!$usuarioActual || !in_array($usuarioActual['rol'], $rolesPersonal, true)): ?>
-      <section class="panel-operaciones">
-        <h2><?= limpiar(t('Acceso de personal')) ?></h2>
-        <?php if ($error): ?><p class="respuesta-operaciones" role="alert"><?= limpiar($error) ?></p><?php endif; ?>
-        <form method="post" class="formulario-operaciones">
-          <input type="hidden" name="accion" value="login">
-          <label><?= limpiar(t('Usuario o email')) ?><input name="usuario" autocomplete="username" required></label>
-          <label><?= limpiar(t('Contraseña')) ?><input name="password" type="password" autocomplete="current-password" required></label>
-          <button class="boton-principal" type="submit"><?= limpiar(t('Ingresar')) ?></button>
-        </form>
-      </section>
-    <?php else: ?>
+
       <div class="barra-operaciones">
         <p><?= limpiar(t('Hola, ')) ?><?= limpiar($usuarioActual['nombre']) ?> · <?= limpiar(t(str_replace('_', ' ', strtolower($usuarioActual['rol']))) ) ?></p>
       </div>
@@ -174,7 +158,6 @@ $datos['codigo'] = $_GET['codigo'] ?? $datos['codigo'];
           </div>
         </section>
       </div>
-    <?php endif; ?>
   </main>
   <?php include __DIR__ . '/partials/footer.php'; ?>
 </body>

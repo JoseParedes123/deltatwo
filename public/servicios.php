@@ -1,18 +1,22 @@
-<?php $paginaActual = 'servicios'; require_once __DIR__ . '/../app/helpers/funciones.php'; ?>
+<?php
+$paginaActual = 'servicios';
+require_once __DIR__ . '/../app/helpers/funciones.php';
+iniciarSesion();
+?>
 <!doctype html>
 <html lang="<?= limpiar(idiomaActual()) ?>">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/png" href="media/favicon.png">
   <meta name="theme-color" content="#073486">
   <title><?= limpiar(t('Servicios')) ?> | Logística Delta</title>
   <link rel="stylesheet" href="css/style.css">
 </head>
-  <link rel="icon" type="image/png" href="media/favicon.png">
 <body>
   <?php include __DIR__ . '/partials/nav.php'; ?>
   <main>
-    <!-- El encabezado introduce la página y la grilla resume cada servicio. -->
+    <!-- el encabezado introduce la página y la grilla resume cada servicio. -->
     <div class="titulo-cinta">
       <h1><?= limpiar(t('Servicios')) ?></h1>
     </div>

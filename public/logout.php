@@ -3,7 +3,7 @@ require_once __DIR__ . '/../app/helpers/funciones.php';
 iniciarSesion();
 $idiomaSalida = idiomaActual();
 
-// Una visita normal a esta URL nunca debe cerrar la sesión.
+// una visita normal a esta url nunca debe cerrar la sesión.
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     header('Location: index.php');
     exit;

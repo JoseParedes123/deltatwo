@@ -12,7 +12,7 @@ if (($_SESSION['rol'] ?? '') === 'CLIENTE') {
 
 $campos = ['first-name' => '', 'last-name' => '', 'email' => '', 'username' => ''];
 $error = '';
-// Valida el formulario y crea la cuenta junto con el perfil de cliente en una transacción.
+// valida el formulario y crea la cuenta junto con el perfil de cliente en una transacción.
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     foreach ($campos as $campo => $valor) $campos[$campo] = trim($_POST[$campo] ?? '');
     $email = filter_var($campos['email'], FILTER_VALIDATE_EMAIL);
@@ -57,7 +57,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <body>
   <?php include __DIR__ . '/partials/nav.php'; ?>
   <main class="disposicion-acceso disposicion-registro">
-    <!-- El formulario crea la cuenta y el perfil de cliente asociado. -->
+    <!-- el formulario crea la cuenta y el perfil de cliente asociado. -->
     <section class="lateral-formulario">
       <form class="formulario-acceso" method="post">
         <h1><?= limpiar(t('Registrarse')) ?></h1><p class="subtitulo"><?= limpiar(t('Completá tus datos para crear una cuenta.')) ?></p>

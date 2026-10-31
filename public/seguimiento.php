@@ -3,13 +3,14 @@ $paginaActual = 'seguimiento';
 require_once __DIR__ . '/../app/helpers/funciones.php';
 require_once __DIR__ . '/../app/dao/EnvioDAO.php';
 require_once __DIR__ . '/../app/dao/MovimientoSeguimientoDAO.php';
+iniciarSesion();
 
 $codigo = strtoupper(trim($_POST['codigo'] ?? $_GET['codigo'] ?? ''));
 $envio = null;
 $movimientos = [];
 $error = '';
 
-// La consulta pública usa el código del envío; no requiere una cuenta de cliente.
+// la consulta pública usa el código del envío; no requiere una cuenta de cliente.
 if ($_SERVER['REQUEST_METHOD'] === 'POST' || isset($_GET['codigo'])) {
     if (!preg_match('/^[A-Z0-9-]{4,20}$/', $codigo)) {
         $error = t('Ingresá un código válido para buscar el paquete.');
@@ -45,15 +46,15 @@ $avisosEstado = [
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#073486">
   <link rel="icon" type="image/png" href="media/favicon.png">
+  <meta name="theme-color" content="#073486">
   <title><?= limpiar(t('Seguimiento de envíos')) ?> | Logística Delta</title>
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
   <?php include __DIR__ . '/partials/nav.php'; ?>
   <main class="contenedor pagina-seguimiento">
-    <!-- Debajo del formulario se muestran el estado y los movimientos encontrados. -->
+    <!-- debajo del formulario se muestran el estado y los movimientos encontrados. -->
     <h1><?= limpiar(t('Seguimiento de envíos')) ?></h1>
     <p class="bajada"><?= limpiar(t('Ingresá el código de tu envío para conocer su estado y dónde está ubicado.')) ?></p>
     <form class="formulario-seguimiento" method="get">

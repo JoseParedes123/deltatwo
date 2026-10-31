@@ -1,13 +1,13 @@
 <?php
 require_once __DIR__ . '/../../app/helpers/funciones.php';
 iniciarSesion();
-// La navegación cambia según el rol guardado en la sesión.
+// la navegación cambia según el rol guardado en la sesión.
 $usuarioNav = usuarioActual();
 $paginaActual = $paginaActual ?? '';
 $idiomaNav = idiomaActual();
 ?>
 <header class="encabezado-sitio">
-  <!-- La marca, los enlaces y las acciones se adaptan al rol activo. -->
+  <!-- la marca, los enlaces y las acciones se adaptan al rol activo. -->
   <div class="contenedor barra-navegacion">
     <a class="marca" href="index.php" aria-label="<?= limpiar(t('Logística Delta, inicio')) ?>">
       <img src="./media/Logistica_Delta.svg" width="50" height="50" alt="">
