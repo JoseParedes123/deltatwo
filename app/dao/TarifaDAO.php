@@ -37,11 +37,13 @@ class TarifaDAO
     // Busca la tarifa vigente para una zona y un tipo de envio.
     public function obtenerVigente(int $idZona, string $tipoEnvio): ?array
     {
-        $sql = "SELECT * FROM tarifas
-                WHERE id_zona = :id_zona AND tipo_envio = :tipo_envio AND activo = 1
-                  AND vigente_desde <= CURDATE()
-                  AND (vigente_hasta IS NULL OR vigente_hasta >= CURDATE())
-                ORDER BY vigente_desde DESC
+        $sql = "SELECT t.* FROM tarifas t
+                INNER JOIN zonas z ON z.id_zona = t.id_zona
+                WHERE t.id_zona = :id_zona AND t.tipo_envio = :tipo_envio AND t.activo = 1
+                  AND z.activo = 1 AND z.cobertura = 'BUENOS_AIRES'
+                  AND t.vigente_desde <= CURDATE()
+                  AND (t.vigente_hasta IS NULL OR t.vigente_hasta >= CURDATE())
+                ORDER BY t.vigente_desde DESC
                 LIMIT 1";
 
         $stmt = $this->db->prepare($sql);

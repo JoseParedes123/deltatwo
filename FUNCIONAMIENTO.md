@@ -1,12 +1,13 @@
 # Cómo está organizada Logística Delta
 
-Logística Delta es un proyecto académico para administrar y seguir paquetes dentro de Argentina. Las páginas se renderizan con PHP: cada apartado carga los datos que necesita, procesa sus formularios y llama a los DAOs correspondientes. JavaScript queda para interacciones de pantalla, como abrir el menú en móviles.
+Logística Delta es un proyecto académico para administrar y seguir paquetes en las localidades de la provincia de Buenos Aires incluidas en la base. Las páginas se renderizan con PHP: cada apartado carga los datos que necesita, procesa sus formularios y llama a los DAOs correspondientes. JavaScript queda para interacciones de pantalla, como abrir el menú en móviles.
 
 ## Qué puede hacer cada persona
 
 - **Visitante:** consultar servicios, enviar una consulta y seguir un paquete por código, sin registrarse.
 - **Cliente:** entrar a su cuenta, solicitar envíos y consultar sus movimientos.
-- **Personal autorizado:** actualizar estado, sucursal, provincia y detalle desde el panel.
+- **Personal de operaciones:** actualizar estado, sucursal y detalle desde el panel.
+- **Atención al Cliente:** revisar consultas, preparar respuestas y registrar cuándo se enviaron.
 
 ## Estructura del proyecto
 
@@ -14,7 +15,8 @@ Logística Delta es un proyecto académico para administrar y seguir paquetes de
 public/
   index.php, servicios.php, contacto.php, redes.php   Páginas públicas
   seguimiento.php, login.php, registro.php             Formularios de clientes
-  envios.php, panel-admin.php, logout.php              Cuenta y operaciones
+  envios.php, panel-admin.php, atencion-cliente.php     Cuenta y paneles internos
+  logout.php                                            Cierre de sesión
   partials/                                             Navegación y pie compartidos
   css/                                                  Estilos de la web
   js/app.js                                             Menú adaptable a móviles
@@ -56,6 +58,9 @@ No hay una carpeta `api`: las acciones pertenecen al archivo de la pantalla que 
 
 `panel-admin.php` muestra el formulario de acceso o el panel según la sesión. `UsuarioDAO` valida al personal; `EnvioDAO` carga los envíos y actualiza el estado; `MovimientoSeguimientoDAO` guarda la nueva ubicación que se verá en el seguimiento público.
 
+### Atender consultas
+`contacto.php` guarda cada consulta en `consultas_web`. El rol `ATENCION_CLIENTE` entra a `atencion-cliente.php`, prepara una respuesta y abre un correo dirigido al cliente con el texto cargado. Después de enviar el correo, el trabajador marca la consulta como respondida. La respuesta, el estado y el usuario que la preparó quedan registrados en la base.
+
 ### Contacto
 
 `contacto.php` valida el mensaje, `EnvioDAO` asocia un código si se indicó y `ConsultaWebDAO` guarda la consulta.
@@ -75,17 +80,20 @@ No hay una carpeta `api`: las acciones pertenecen al archivo de la pantalla que 
 - `public/seguimiento.php`: ejemplo de una página que recibe un formulario, llama a DAOs y muestra los datos.
 - `public/envios.php`: ejemplo de un flujo que coordina varios DAOs dentro de una transacción.
 - `public/panel-admin.php`: ejemplo del acceso del personal y la actualización de movimientos.
+- `public/atencion-cliente.php` y `app/dao/ConsultaWebDAO.php`: bandeja, preparación de respuestas y estado de atención.
 - `public/partials/nav.php` y `footer.php`: componentes compartidos incluidos desde las páginas.
 - `public/css/style.css`: colores y composición de los bocetos, con tamaños y espacios adaptados a cada pantalla.
 
 ## Cómo levantar el sitio
 
 1. Iniciá Apache y MySQL desde XAMPP.
-2. Importá `database/logistica_delta.sql` en una base llamada `logistica_delta`.
+2. Para instalar desde cero, creá una base vacía llamada `logistica_delta` e importá `database/logistica_delta.sql`. Para conservar la base del hosting, primero hacé un respaldo y ejecutá una sola vez `database/migrar_host_s11.sql` sobre la base existente. No importes el SQL de instalación sobre la base con datos.
 3. Abrí `http://localhost/deltatwo/public/`.
 4. El panel interno está en `http://localhost/deltatwo/public/panel-admin.php`.
 
-El SQL de ejemplo trae las cuentas `admin` / `DeltaAdmin123` y `operador` / `123456`. Si ya habías importado la base, ejecutá `database/habilitar_acceso_personal.sql` desde phpMyAdmin. Son credenciales para la práctica local. Los códigos de prueba están en `README.md`.
+El SQL de ejemplo trae las cuentas `admin` / `DeltaAdmin123` y `operador` / `123456`. Estas cuentas son solo para la base de práctica local; cambiá las claves antes de publicar. Los códigos de prueba están en `README.md`.
+
+La tabla de Atención al Cliente y el rol `ATENCION_CLIENTE` ya están incluidos en el esquema compartido. El envío de correo se realiza desde el programa de correo del trabajador.
 
 ## Criterio visual
 

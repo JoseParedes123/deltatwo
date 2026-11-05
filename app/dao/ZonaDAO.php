@@ -15,7 +15,7 @@ class ZonaDAO
     // Devuelve las zonas activas para listarlas en formularios y vistas.
     public function obtenerTodos(): array
     {
-        $sql = "SELECT * FROM zonas WHERE activo = 1 ORDER BY nombre";
+        $sql = "SELECT * FROM zonas WHERE activo = 1 AND cobertura = 'BUENOS_AIRES' ORDER BY nombre";
 
         return $this->db->query($sql)->fetchAll();
     }
@@ -23,7 +23,7 @@ class ZonaDAO
     // Busca una zona puntual.
     public function obtenerPorId(int $idZona): ?array
     {
-        $stmt = $this->db->prepare("SELECT * FROM zonas WHERE id_zona = :id_zona");
+        $stmt = $this->db->prepare("SELECT * FROM zonas WHERE id_zona = :id_zona AND activo = 1 AND cobertura = 'BUENOS_AIRES'");
         $stmt->execute(['id_zona' => $idZona]);
         $zona = $stmt->fetch();
 

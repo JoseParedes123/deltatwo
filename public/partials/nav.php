@@ -28,8 +28,9 @@ $idiomaNav = idiomaActual();
       <?php if ($usuarioNav): ?>
         <?php
           $esClienteNav = $usuarioNav['rol'] === 'CLIENTE';
-          $enlaceCuentaNav = $esClienteNav ? 'envios.php' : 'panel-admin.php';
-          $textoCuentaNav = $esClienteNav ? t('MI CUENTA') : t('OPERACIONES');
+          $esAtencionNav = $usuarioNav['rol'] === 'ATENCION_CLIENTE';
+          $enlaceCuentaNav = $esClienteNav ? 'envios.php' : ($esAtencionNav ? 'atencion-cliente.php' : 'panel-admin.php');
+          $textoCuentaNav = $esClienteNav ? t('MI CUENTA') : ($esAtencionNav ? t('ATENCIÓN AL CLIENTE') : t('OPERACIONES'));
         ?>
         <details class="menu-cuenta">
           <summary aria-label="<?= limpiar(t('Abrir menú de cuenta')) ?>" title="<?= limpiar(t('Abrir menú de cuenta')) ?>">

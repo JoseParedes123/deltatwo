@@ -3,8 +3,9 @@ require_once __DIR__ . '/../app/helpers/funciones.php';
 require_once __DIR__ . '/../app/config/Conexion.php';
 require_once __DIR__ . '/../app/dao/EnvioDAO.php';
 require_once __DIR__ . '/../app/dao/MovimientoSeguimientoDAO.php';
+require_once __DIR__ . '/../app/dao/SucursalDAO.php';
 iniciarSesion();
-$rolesPersonal = ['ADMINISTRADOR', 'OPERADOR_DEPOSITO', 'ADMINISTRACION'];
+$rolesPersonal = ['ADMINISTRADOR', 'SUPERADMIN', 'OPERADOR_DEPOSITO', 'ADMINISTRACION'];
 $usuarioActual = usuarioActual();
 if (!$usuarioActual) {
     header('Location: login.php');
@@ -20,31 +21,7 @@ if (!in_array($usuarioActual['rol'], $rolesPersonal, true)) {
 }
 $error = '';
 $mensaje = mensajeFlasheado() ?? '';
-$datos = ['codigo' => '', 'estado' => 'REGISTRADO', 'sucursal' => '', 'provincia' => '', 'detalle' => ''];
-// sucursales confirmadas del corredor norte de la provincia de buenos aires.
-$sucursales = [
-    'olivos_maipu_2683' => ['localidad' => 'Olivos', 'direccion' => 'Avenida Maipú 2683', 'provincia' => 'Buenos Aires'],
-    'olivos_maipu_3028' => ['localidad' => 'Olivos', 'direccion' => 'Avenida Maipú 3028', 'provincia' => 'Buenos Aires'],
-    'olivos_uruguay_1841' => ['localidad' => 'Olivos', 'direccion' => 'Calle Uruguay 1841', 'provincia' => 'Buenos Aires'],
-    'olivos_uruguay_2404' => ['localidad' => 'Olivos', 'direccion' => 'Calle Uruguay 2404', 'provincia' => 'Buenos Aires'],
-    'olivos_maipu_2881' => ['localidad' => 'Olivos', 'direccion' => 'Avenida Maipú 2881', 'provincia' => 'Buenos Aires'],
-    'munro_velez_4319' => ['localidad' => 'Munro', 'direccion' => 'Avenida Vélez Sarsfield 4319', 'provincia' => 'Buenos Aires'],
-    'munro_velez_4819' => ['localidad' => 'Munro', 'direccion' => 'Avenida Vélez Sarsfield 4819', 'provincia' => 'Buenos Aires'],
-    'munro_velez_4945' => ['localidad' => 'Munro', 'direccion' => 'Avenida Vélez Sarsfield 4945', 'provincia' => 'Buenos Aires'],
-    'munro_mitre_3870' => ['localidad' => 'Munro', 'direccion' => 'Avenida Mitre 3870', 'provincia' => 'Buenos Aires'],
-    'carapachay_deheza_5798' => ['localidad' => 'Carapachay', 'direccion' => 'Calle Deheza 5798', 'provincia' => 'Buenos Aires'],
-    'villa_adelina_parana_6001' => ['localidad' => 'Villa Adelina', 'direccion' => 'Avenida Paraná 6001', 'provincia' => 'Buenos Aires'],
-    'villa_ballester_buenos_aires_4479' => ['localidad' => 'Villa Ballester', 'direccion' => 'Calle Buenos Aires 4479', 'provincia' => 'Buenos Aires'],
-    'villa_ballester_buenos_aires_4755' => ['localidad' => 'Villa Ballester', 'direccion' => 'Calle Buenos Aires 4755', 'provincia' => 'Buenos Aires'],
-    'villa_ballester_lacroze_1850' => ['localidad' => 'Villa Ballester', 'direccion' => 'Calle Lacroze 1850', 'provincia' => 'Buenos Aires'],
-    'villa_ballester_marengo_4479' => ['localidad' => 'Villa Ballester', 'direccion' => 'Calle Marengo 4479', 'provincia' => 'Buenos Aires'],
-    'san_martin_campos_1951' => ['localidad' => 'San Martín', 'direccion' => 'Calle Campos 1951', 'provincia' => 'Buenos Aires'],
-    'san_martin_pueyrredon_4694' => ['localidad' => 'San Martín', 'direccion' => 'Calle Pueyrredón 4694', 'provincia' => 'Buenos Aires'],
-    'san_martin_mitre_3166' => ['localidad' => 'San Martín', 'direccion' => 'Calle Mitre 3166', 'provincia' => 'Buenos Aires'],
-    'san_martin_belgrano_4514' => ['localidad' => 'San Martín', 'direccion' => 'Calle Belgrano 4514', 'provincia' => 'Buenos Aires'],
-    'san_martin_pellegrini_1980' => ['localidad' => 'San Martín', 'direccion' => 'Calle Pellegrini 1980', 'provincia' => 'Buenos Aires'],
-    'tigre_cazon_1140' => ['localidad' => 'Tigre', 'direccion' => 'Avenida Cazón 1140', 'provincia' => 'Buenos Aires'],
-];
+$datos = ['codigo' => '', 'estado' => 'REGISTRADO', 'sucursal' => '', 'detalle' => ''];
 
 // procesa las actualizaciones de estado y recorrido del personal autenticado.
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -53,8 +30,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($accion === 'actualizar' && in_array($_SESSION['rol'] ?? '', $rolesPersonal, true)) {
         foreach ($datos as $campo => $valor) $datos[$campo] = trim($_POST[$campo] ?? $valor);
         $estados = ['REGISTRADO', 'RECIBIDO_DEPOSITO', 'PREPARADO', 'EN_TRANSITO', 'EN_REPARTO', 'ENTREGADO', 'NO_ENTREGADO', 'DEVUELTO', 'EXTRAVIADO', 'CANCELADO'];
+        $idSucursal = filter_var($datos['sucursal'], FILTER_VALIDATE_INT);
         if (!in_array($datos['estado'], $estados, true) || !$datos['codigo']
-            || !isset($sucursales[$datos['sucursal']]) || !$datos['detalle']
+            || !$idSucursal || !$datos['detalle']
             || mb_strlen($datos['detalle']) > 255) {
             $error = t('Revisá el código, estado, sucursal y detalle.');
         } else {
@@ -66,11 +44,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 if (!$idEnvio) {
                     $error = t('No encontramos un envío activo con ese código.');
                 } else {
+                    $sucursalElegida = (new SucursalDAO($db))->obtenerActivaPorId($idSucursal);
+                    if (!$sucursalElegida) {
+                        throw new DomainException('La sucursal seleccionada ya no está disponible.');
+                    }
                     $db->beginTransaction();
-                    $envioDAO->cambiarEstado($idEnvio, $datos['estado']);
-                    $sucursalElegida = $sucursales[$datos['sucursal']];
-                    $nombreSucursal = $sucursalElegida['localidad'] . ' · ' . $sucursalElegida['direccion'];
-                    (new MovimientoSeguimientoDAO($db))->crear($idEnvio, $nombreSucursal, $sucursalElegida['provincia'], $datos['detalle']);
+                    if (!$envioDAO->cambiarEstado($idEnvio, $datos['estado'], $usuarioActual['id_usuario'])) {
+                        throw new DomainException('No se pudo guardar el cambio de estado.');
+                    }
+                    (new MovimientoSeguimientoDAO($db))->crear($idEnvio, $idSucursal, $datos['detalle']);
                     $db->commit();
                     $_SESSION['mensaje'] = t('Estado y recorrido actualizados. El cliente ya puede ver el movimiento.');
                     header('Location: panel-admin.php');
@@ -79,7 +61,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             } catch (Throwable $exception) {
                 if ($db && $db->inTransaction()) $db->rollBack();
                 error_log($exception->getMessage());
-                $error = t('No pudimos guardar el movimiento en este momento. Intentá nuevamente más tarde.');
+                    $error = $exception instanceof DomainException
+                        ? t($exception->getMessage())
+                        : t('No pudimos guardar el movimiento en este momento. Intentá nuevamente más tarde.');
             }
         }
     } else {
@@ -89,10 +73,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
 $envios = [];
+$sucursales = [];
 // solo el personal autorizado puede consultar el listado de operaciones.
 if ($usuarioActual && in_array($usuarioActual['rol'], $rolesPersonal, true)) {
     try {
         $envios = (new EnvioDAO())->obtenerParaPanel();
+        $sucursales = (new SucursalDAO())->obtenerActivas();
     } catch (Throwable $exception) {
         error_log($exception->getMessage());
         $error = t('No pudimos cargar los envíos en este momento. Intentá recargar la página.');
@@ -134,8 +120,8 @@ $datos['codigo'] = $_GET['codigo'] ?? $datos['codigo'];
               <option value=""><?= limpiar(t('Elegí una sucursal de Buenos Aires')) ?></option>
               <?php $localidades = array_unique(array_column($sucursales, 'localidad')); foreach ($localidades as $localidad): ?>
                 <optgroup label="<?= limpiar($localidad) ?>">
-                  <?php foreach ($sucursales as $clave => $sucursal): if ($sucursal['localidad'] !== $localidad) continue; ?>
-                    <option value="<?= limpiar($clave) ?>" <?= $datos['sucursal'] === $clave ? 'selected' : '' ?>><?= limpiar(str_replace(['Avenida', 'Calle'], [t('Avenida'), t('Calle')], $sucursal['direccion'])) ?></option>
+                  <?php foreach ($sucursales as $sucursal): if ($sucursal['localidad'] !== $localidad) continue; ?>
+                    <option value="<?= (int) $sucursal['id_sucursal'] ?>" <?= (string) $datos['sucursal'] === (string) $sucursal['id_sucursal'] ? 'selected' : '' ?>><?= limpiar($sucursal['direccion']) ?></option>
                   <?php endforeach; ?>
                 </optgroup>
               <?php endforeach; ?>

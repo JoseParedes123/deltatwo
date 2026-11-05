@@ -87,8 +87,8 @@ $avisosEstado = [
             <?php if ($movimientos): ?>
               <?php foreach ($movimientos as $movimiento): ?>
                 <li class="elemento-recorrido">
-                  <strong><?= limpiar($movimiento['sucursal']) ?></strong>
-                  <span><?= limpiar($movimiento['detalle']) ?> · <?= limpiar($movimiento['provincia']) ?></span>
+                  <strong><?= limpiar($movimiento['localidad']) ?><?= $movimiento['direccion'] ? ' · ' . limpiar($movimiento['direccion']) : '' ?></strong>
+                  <span><?= limpiar($movimiento['detalle']) ?><?= $movimiento['provincia'] ? ' · ' . limpiar($movimiento['provincia']) : '' ?></span>
                   <time datetime="<?= limpiar($movimiento['fecha_hora']) ?>"><?= limpiar(date('d/m/Y H:i', strtotime($movimiento['fecha_hora']))) ?></time>
                 </li>
               <?php endforeach; ?>

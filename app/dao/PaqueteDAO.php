@@ -41,10 +41,10 @@ class PaqueteDAO
     }
 
     // Registra un paquete nuevo y devuelve su id (0 si fallo).
-    public function crear(string $codigo, ?string $descripcion, float $pesoKg, ?float $largoCm, ?float $anchoCm, ?float $altoCm, int $cantidadBultos, string $tipoMercaderia, ?float $valorDeclarado, bool $esFragil): int
+    public function crear(string $codigo, ?string $descripcion, float $pesoKg, ?float $largoCm, ?float $anchoCm, ?float $altoCm, string $tipoMercaderia, ?float $valorDeclarado, bool $esFragil): int
     {
-        $sql = "INSERT INTO paquetes (codigo, descripcion, peso_kg, largo_cm, ancho_cm, alto_cm, cantidad_bultos, tipo_mercaderia, valor_declarado, es_fragil)
-                VALUES (:codigo, :descripcion, :peso_kg, :largo_cm, :ancho_cm, :alto_cm, :cantidad_bultos, :tipo_mercaderia, :valor_declarado, :es_fragil)";
+        $sql = "INSERT INTO paquetes (codigo, descripcion, peso_kg, largo_cm, ancho_cm, alto_cm, tipo_mercaderia, valor_declarado, es_fragil)
+                VALUES (:codigo, :descripcion, :peso_kg, :largo_cm, :ancho_cm, :alto_cm, :tipo_mercaderia, :valor_declarado, :es_fragil)";
 
         $stmt = $this->db->prepare($sql);
         $guardado = $stmt->execute([
@@ -54,7 +54,6 @@ class PaqueteDAO
             'largo_cm' => $largoCm,
             'ancho_cm' => $anchoCm,
             'alto_cm' => $altoCm,
-            'cantidad_bultos' => $cantidadBultos,
             'tipo_mercaderia' => $tipoMercaderia,
             'valor_declarado' => $valorDeclarado,
             'es_fragil' => (int) $esFragil,
@@ -64,11 +63,11 @@ class PaqueteDAO
     }
 
     // Modifica los datos de un paquete.
-    public function actualizar(int $idPaquete, ?string $descripcion, float $pesoKg, ?float $largoCm, ?float $anchoCm, ?float $altoCm, int $cantidadBultos, string $tipoMercaderia, ?float $valorDeclarado, bool $esFragil): bool
+    public function actualizar(int $idPaquete, ?string $descripcion, float $pesoKg, ?float $largoCm, ?float $anchoCm, ?float $altoCm, string $tipoMercaderia, ?float $valorDeclarado, bool $esFragil): bool
     {
         $sql = "UPDATE paquetes
                 SET descripcion = :descripcion, peso_kg = :peso_kg, largo_cm = :largo_cm, ancho_cm = :ancho_cm,
-                    alto_cm = :alto_cm, cantidad_bultos = :cantidad_bultos, tipo_mercaderia = :tipo_mercaderia,
+                    alto_cm = :alto_cm, tipo_mercaderia = :tipo_mercaderia,
                     valor_declarado = :valor_declarado, es_fragil = :es_fragil
                 WHERE id_paquete = :id_paquete";
 
@@ -80,7 +79,6 @@ class PaqueteDAO
             'largo_cm' => $largoCm,
             'ancho_cm' => $anchoCm,
             'alto_cm' => $altoCm,
-            'cantidad_bultos' => $cantidadBultos,
             'tipo_mercaderia' => $tipoMercaderia,
             'valor_declarado' => $valorDeclarado,
             'es_fragil' => (int) $esFragil,

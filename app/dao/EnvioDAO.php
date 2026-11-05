@@ -51,8 +51,11 @@ class EnvioDAO
     public function obtenerParaPanel(): array
     {
         $sql = "SELECT e.codigo_envio, e.estado, d.nombre AS destino,
-                       (SELECT CONCAT(m.sucursal, ' · ', m.provincia)
-                        FROM movimientos_seguimiento m WHERE m.id_envio = e.id_envio
+                       (SELECT CONCAT(z.nombre, ' · ', s.direccion, ' · ', s.provincia)
+                        FROM movimientos_seguimiento m
+                        LEFT JOIN sucursales s ON s.id_sucursal = m.id_sucursal
+                        LEFT JOIN zonas z ON z.id_zona = s.id_zona
+                        WHERE m.id_envio = e.id_envio
                         ORDER BY m.fecha_hora DESC, m.id_movimiento DESC LIMIT 1) AS ubicacion
                 FROM envios e
                 INNER JOIN contactos d ON d.id_contacto = e.id_destinatario
@@ -222,13 +225,28 @@ class EnvioDAO
     }
 
     // Cambia el estado del envio. El estado es un ENUM: la base solo acepta los estados definidos.
-    public function cambiarEstado(int $idEnvio, string $estado): bool
+    public function cambiarEstado(int $idEnvio, string $estado, int $idUsuario): bool
     {
-        $stmt = $this->db->prepare("UPDATE envios SET estado = :estado WHERE id_envio = :id_envio");
+        $consulta = $this->db->prepare("SELECT estado FROM envios WHERE id_envio = :id_envio FOR UPDATE");
+        $consulta->execute(['id_envio' => $idEnvio]);
+        $anterior = $consulta->fetchColumn();
+        if ($anterior === false) return false;
 
-        return $stmt->execute([
+        $stmt = $this->db->prepare("UPDATE envios SET estado = :estado WHERE id_envio = :id_envio");
+        $actualizado = $stmt->execute([
             'estado' => $estado,
             'id_envio' => $idEnvio,
+        ]);
+        if (!$actualizado) return false;
+
+        $historial = $this->db->prepare("INSERT INTO historial
+            (tipo_evento, tabla_afectada, registro_id, campo_modificado, valor_anterior, valor_nuevo, id_usuario, descripcion)
+            VALUES ('CAMBIO_ESTADO', 'envios', :id_envio, 'estado', :anterior, :nuevo, :id_usuario, 'Actualizado desde el panel web')");
+        return $historial->execute([
+            'id_envio' => $idEnvio,
+            'anterior' => (string) $anterior,
+            'nuevo' => $estado,
+            'id_usuario' => $idUsuario,
         ]);
     }
 

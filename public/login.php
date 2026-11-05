@@ -3,14 +3,14 @@ require_once __DIR__ . '/../app/helpers/funciones.php';
 require_once __DIR__ . '/../app/dao/UsuarioDAO.php';
 iniciarSesion();
 
-$rolesPersonal = ['ADMINISTRADOR', 'OPERADOR_DEPOSITO', 'ADMINISTRACION'];
+$rolesPersonal = ['ADMINISTRADOR', 'SUPERADMIN', 'OPERADOR_DEPOSITO', 'ADMINISTRACION', 'ATENCION_CLIENTE'];
 $rolSesion = $_SESSION['rol'] ?? '';
 if ($rolSesion === 'CLIENTE') {
     header('Location: envios.php');
     exit;
 }
 if (in_array($rolSesion, $rolesPersonal, true)) {
-    header('Location: panel-admin.php');
+    header('Location: ' . ($rolSesion === 'ATENCION_CLIENTE' ? 'atencion-cliente.php' : 'panel-admin.php'));
     exit;
 }
 
@@ -25,7 +25,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $_SESSION['id_usuario'] = $usuario['id_usuario'];
             $_SESSION['nombre'] = $usuario['nombre'];
             $_SESSION['rol'] = $usuario['rol'];
-            $destino = $usuario['rol'] === 'CLIENTE' ? 'envios.php' : 'panel-admin.php';
+            $destino = match ($usuario['rol']) {
+                'CLIENTE' => 'envios.php',
+                'ATENCION_CLIENTE' => 'atencion-cliente.php',
+                default => 'panel-admin.php',
+            };
             header('Location: ' . $destino);
             exit;
         }
