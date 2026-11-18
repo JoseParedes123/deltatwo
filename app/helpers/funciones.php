@@ -69,7 +69,7 @@ function protegerCliente(): void
 function protegerPersonal(): void
 {
     $usuario = usuarioActual();
-    $roles = ['ADMINISTRADOR', 'SUPERADMIN', 'OPERADOR_DEPOSITO', 'ADMINISTRACION', 'ATENCION_CLIENTE'];
+    $roles = ['ADMINISTRADOR', 'SUPERADMIN', 'OPERADOR_DEPOSITO', 'ADMINISTRACION'];
     if (!$usuario || !in_array($usuario['rol'], $roles, true)) {
         header('Location: panel-admin.php');
         exit;
@@ -79,8 +79,7 @@ function protegerPersonal(): void
 function protegerAtencionCliente(): void
 {
     $usuario = usuarioActual();
-    $roles = ['ADMINISTRADOR', 'SUPERADMIN', 'ATENCION_CLIENTE'];
-    if (!$usuario || !in_array($usuario['rol'], $roles, true)) {
+    if (!$usuario || $usuario['rol'] !== 'ATENCION_CLIENTE') {
         header('Location: login.php');
         exit;
     }

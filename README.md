@@ -44,10 +44,11 @@ El panel está disponible en `http://localhost/deltatwo/public/panel-admin.php`.
 | --- | --- | --- |
 | `admin` | `DeltaAdmin123` | Administrador |
 | `operador` | `123456` | Operador de depósito |
+| `atencion` | `DeltaAtencion123` | Atención al cliente |
 
 Estas credenciales son únicamente para una instalación local nueva de práctica; cambiá las claves antes de publicar el sitio.
 
-El rol `ATENCION_CLIENTE` se incluye en el esquema compartido y debe entrar por el panel web. Las respuestas se preparan en el panel y se envían desde el correo del trabajador. El código no guarda credenciales de la base de datos; configurá el acceso del hosting por variables de entorno.
+El rol `ATENCION_CLIENTE` tiene una bandeja propia en `public/atencion-cliente.php`; solo ese rol puede entrar. En una base de ejemplo recién importada, iniciá sesión con la cuenta `atencion`. Para agregarla a una base ya instalada, ejecutá `database/crear_usuario_atencion.sql` desde phpMyAdmin. La persona prepara la respuesta en la bandeja, la envía desde su correo y después la marca como respondida.
 
 ## Organización del código
 

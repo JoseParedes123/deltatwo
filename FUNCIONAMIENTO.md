@@ -59,7 +59,7 @@ No hay una carpeta `api`: las acciones pertenecen al archivo de la pantalla que 
 `panel-admin.php` muestra el formulario de acceso o el panel según la sesión. `UsuarioDAO` valida al personal; `EnvioDAO` carga los envíos y actualiza el estado; `MovimientoSeguimientoDAO` guarda la nueva ubicación que se verá en el seguimiento público.
 
 ### Atender consultas
-`contacto.php` guarda cada consulta en `consultas_web`. El rol `ATENCION_CLIENTE` entra a `atencion-cliente.php`, prepara una respuesta y abre un correo dirigido al cliente con el texto cargado. Después de enviar el correo, el trabajador marca la consulta como respondida. La respuesta, el estado y el usuario que la preparó quedan registrados en la base.
+`contacto.php` guarda cada consulta en `consultas_web`. Al iniciar sesión, el rol `ATENCION_CLIENTE` llega a `atencion-cliente.php`, prepara una respuesta y abre un correo dirigido al cliente con el texto cargado. Después de enviar el correo, el trabajador marca la consulta como respondida. La respuesta, el estado y el usuario que la preparó quedan registrados en la base. La bandeja valida que la sesión tenga exactamente ese rol.
 
 ### Contacto
 
@@ -91,7 +91,7 @@ No hay una carpeta `api`: las acciones pertenecen al archivo de la pantalla que 
 3. Abrí `http://localhost/deltatwo/public/`.
 4. El panel interno está en `http://localhost/deltatwo/public/panel-admin.php`.
 
-El SQL de ejemplo trae las cuentas `admin` / `DeltaAdmin123` y `operador` / `123456`. Estas cuentas son solo para la base de práctica local; cambiá las claves antes de publicar. Los códigos de prueba están en `README.md`.
+El SQL de ejemplo trae las cuentas `admin` / `DeltaAdmin123`, `operador` / `123456` y `atencion` / `DeltaAtencion123`. Si ya importaste la base, ejecutá `database/crear_usuario_atencion.sql` desde phpMyAdmin para agregar la cuenta de atención. Estas cuentas son solo para la práctica local; cambiá las claves antes de publicar. Los códigos de prueba están en `README.md`.
 
 La tabla de Atención al Cliente y el rol `ATENCION_CLIENTE` ya están incluidos en el esquema compartido. El envío de correo se realiza desde el programa de correo del trabajador.
 

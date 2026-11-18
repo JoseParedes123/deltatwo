@@ -339,7 +339,8 @@ INSERT INTO ubicaciones (id_ubicacion,id_deposito,sector,estante,posicion,ocupad
 -- Cuentas de práctica iniciales; cambiar las claves al instalar en un entorno real.
 INSERT INTO usuarios (id_usuario,nombre,apellido,email,nombre_usuario,password_hash,rol,activo) VALUES
 (1,'Admin','Delta','admin@delta.local','admin',SHA2('DeltaAdmin123',256),'ADMINISTRADOR',1),
-(2,'Operador','Delta','operador@delta.local','operador',SHA2('123456',256),'OPERADOR_DEPOSITO',1);
+(2,'Operador','Delta','operador@delta.local','operador',SHA2('123456',256),'OPERADOR_DEPOSITO',1),
+(3,'Atencion','Delta','atencion@delta.local','atencion',SHA2('DeltaAtencion123',256),'ATENCION_CLIENTE',1);
 
 -- Vehículo inicial para probar asignación de rutas en Java.
 INSERT INTO vehiculos (id_vehiculo,patente,tipo,marca,modelo,anio,capacidad_peso_kg,capacidad_volumen_m3,estado)
