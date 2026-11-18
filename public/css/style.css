@@ -4211,6 +4211,7 @@ button, a {
 .filtros-consultas,
 .acciones-respuesta-consulta {
   display: flex;
+  align-items: center;
   flex-wrap: wrap;
   gap: 12px;
   margin: 20px 0;
@@ -4323,7 +4324,33 @@ button, a {
   box-shadow: 0 5px 12px rgba(7, 52, 134, .16);
 }
 
-.acciones-respuesta-consulta .boton-principal:hover {
+.acciones-respuesta-consulta .boton-correo-consulta,
+.acciones-respuesta-consulta .boton-correo-consulta:link,
+.acciones-respuesta-consulta .boton-correo-consulta:visited,
+.acciones-respuesta-consulta .boton-correo-consulta:hover,
+.acciones-respuesta-consulta .boton-correo-consulta:active {
+  box-sizing: border-box;
+  display: flex;
+  width: fit-content;
+  max-width: 100%;
+  min-width: 0;
+  min-height: 52px;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 18px;
+  border: 1px solid var(--azul);
+  border-radius: 10px;
+  background: var(--azul);
+  color: #fff;
+  font: 700 .95rem var(--fuente-titulos);
+  line-height: 1.25;
+  text-align: center;
+  text-decoration: none;
+  text-decoration-line: none;
+  white-space: normal;
+}
+
+.acciones-respuesta-consulta .boton-correo-consulta:hover {
   border-color: var(--azul-profundo);
   background: var(--azul-profundo);
   transform: translateY(-1px);
@@ -4356,5 +4383,20 @@ button, a {
   .acciones-respuesta-consulta .boton-principal,
   .acciones-respuesta-consulta .boton-secundario {
     width: 100%;
+  }
+
+  .acciones-respuesta-consulta {
+    justify-content: center;
+  }
+
+  .acciones-respuesta-consulta .boton-correo-consulta,
+  .acciones-respuesta-consulta .boton-correo-consulta:link,
+  .acciones-respuesta-consulta .boton-correo-consulta:visited,
+  .acciones-respuesta-consulta .boton-correo-consulta:hover,
+  .acciones-respuesta-consulta .boton-correo-consulta:active {
+    width: 100%;
+    min-width: 0;
+    white-space: normal;
+    text-decoration: none;
   }
 }

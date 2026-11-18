@@ -96,7 +96,7 @@ function enlaceCorreoConsulta(array $consulta): string
   <link rel="icon" type="image/png" href="media/favicon.png">
   <meta name="theme-color" content="#073486">
   <title>Atención al cliente | Logística Delta</title>
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/style.css?v=<?= filemtime(__DIR__ . '/css/style.css') ?>">
 </head>
 <body>
   <?php
@@ -164,7 +164,7 @@ function enlaceCorreoConsulta(array $consulta): string
               <?php endif; ?>
             </div>
             <div class="acciones-respuesta-consulta">
-              <a class="boton-principal" href="<?= limpiar(enlaceCorreoConsulta($consulta)) ?>">Abrir correo para enviar</a>
+              <a class="boton-principal boton-correo-consulta" href="<?= limpiar(enlaceCorreoConsulta($consulta)) ?>">Abrir correo para enviar</a>
               <form method="post" onsubmit="return confirm('¿Ya enviaste el correo al cliente?');">
                 <input type="hidden" name="accion" value="marcar_respondida">
                 <input type="hidden" name="id_consulta" value="<?= $idConsulta ?>">
