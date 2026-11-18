@@ -100,10 +100,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </section>
     <aside class="foto-acceso" aria-label="<?= limpiar(t('Camión de Logística Delta')) ?>">
       <div class="logo-acceso">
-        <svg viewBox="0 0 100 100" aria-hidden="true">
-          <path d="M50 8 92 84H8L50 8Z" fill="none" stroke="white" stroke-width="8"/>
-          <path d="m22 78 48-39M41 81l36-29M57 82l20-16" fill="none" stroke="white" stroke-width="5"/>
-        </svg>
+            <img src="media/Logistica_Delta.svg" alt="" style="width: 320px">
         <?= limpiar(t('LOGÍSTICA DELTA')) ?>
       </div>
     </aside>
