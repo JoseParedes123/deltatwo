@@ -35,13 +35,48 @@ class Envio
         $this->fechaEntregaEstimada = $fechaEntregaEstimada;
     }
 
-    public function getIdEnvio(): int { return $this->idEnvio; }
-    public function getCodigoEnvio(): string { return $this->codigoEnvio; }
-    public function getEstado(): string { return $this->estado; }
-    public function getOrigen(): string { return $this->origen; }
-    public function getDestino(): string { return $this->destino; }
-    public function getDescripcionPaquete(): ?string { return $this->descripcionPaquete; }
-    public function getPesoKg(): ?float { return $this->pesoKg; }
-    public function getFechaSolicitud(): string { return $this->fechaSolicitud; }
-    public function getFechaEntregaEstimada(): ?string { return $this->fechaEntregaEstimada; }
+    public function getIdEnvio(): int
+    {
+        return $this->idEnvio;
+    }
+
+    public function getCodigoEnvio(): string
+    {
+        return $this->codigoEnvio;
+    }
+
+    public function getEstado(): string
+    {
+        return $this->estado;
+    }
+
+    public function getOrigen(): string
+    {
+        return $this->origen;
+    }
+
+    public function getDestino(): string
+    {
+        return $this->destino;
+    }
+
+    public function getDescripcionPaquete(): ?string
+    {
+        return $this->descripcionPaquete;
+    }
+
+    public function getPesoKg(): ?float
+    {
+        return $this->pesoKg;
+    }
+
+    public function getFechaSolicitud(): string
+    {
+        return $this->fechaSolicitud;
+    }
+
+    public function getFechaEntregaEstimada(): ?string
+    {
+        return $this->fechaEntregaEstimada;
+    }
 }

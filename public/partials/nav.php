@@ -11,9 +11,19 @@ $idiomaNav = idiomaActual();
   <div class="contenedor barra-navegacion">
     <a class="marca" href="index.php" aria-label="<?= limpiar(t('Logística Delta, inicio')) ?>">
       <img src="./media/Logistica_Delta.svg" width="50" height="50" alt="">
-    <span class="nombre-marca"><span><?= limpiar(t('LOGÍSTICA')) ?></span><strong>DELTA</strong></span>
+      <span class="nombre-marca">
+        <span><?= limpiar(t('LOGÍSTICA')) ?></span>
+        <strong>DELTA</strong>
+      </span>
     </a>
-    <button class="boton-menu" type="button" aria-label="<?= limpiar(t('Abrir navegación')) ?>" data-label-open="<?= limpiar(t('Abrir navegación')) ?>" data-label-close="<?= limpiar(t('Cerrar navegación')) ?>" aria-expanded="false">☰</button>
+    <button
+      class="boton-menu"
+      type="button"
+      aria-label="<?= limpiar(t('Abrir navegación')) ?>"
+      data-label-open="<?= limpiar(t('Abrir navegación')) ?>"
+      data-label-close="<?= limpiar(t('Cerrar navegación')) ?>"
+      aria-expanded="false"
+    >☰</button>
     <nav class="enlaces-navegacion" aria-label="<?= limpiar(t('Navegación principal')) ?>">
       <a href="index.php" <?= $paginaActual === 'inicio' ? 'aria-current="page"' : '' ?>><?= limpiar(t('INICIO')) ?></a>
       <a href="seguimiento.php" <?= $paginaActual === 'seguimiento' ? 'aria-current="page"' : '' ?>><?= limpiar(t('SEGUIMIENTO')) ?></a>
@@ -34,7 +44,10 @@ $idiomaNav = idiomaActual();
         ?>
         <details class="menu-cuenta">
           <summary aria-label="<?= limpiar(t('Abrir menú de cuenta')) ?>" title="<?= limpiar(t('Abrir menú de cuenta')) ?>">
-            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="8" r="4"></circle><path d="M4.5 21a7.5 7.5 0 0 1 15 0"></path></svg>
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <circle cx="12" cy="8" r="4"></circle>
+              <path d="M4.5 21a7.5 7.5 0 0 1 15 0"></path>
+            </svg>
             <span class="solo-lectores"><?= limpiar(t('Cuenta')) ?></span>
           </summary>
           <div class="contenido-menu-cuenta">

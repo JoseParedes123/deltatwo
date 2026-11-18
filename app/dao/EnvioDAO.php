@@ -187,7 +187,18 @@ class EnvioDAO
     }
 
     // Registra un envio nuevo (nace REGISTRADO) y devuelve su id (0 si fallo).
-    public function crear(string $codigoEnvio, int $idCliente, int $idRemitente, int $idDestinatario, int $idPaquete, int $idZonaDestino, ?int $idTarifaAplicada, ?float $precioFinal, ?string $fechaEntregaEstimada, int $idUsuarioRegistro): int
+    public function crear(
+        string $codigoEnvio,
+        int $idCliente,
+        int $idRemitente,
+        int $idDestinatario,
+        int $idPaquete,
+        int $idZonaDestino,
+        ?int $idTarifaAplicada,
+        ?float $precioFinal,
+        ?string $fechaEntregaEstimada,
+        int $idUsuarioRegistro
+    ): int
     {
         $sql = "INSERT INTO envios (codigo_envio, id_cliente, id_remitente, id_destinatario, id_paquete, id_zona_destino,
                                     id_tarifa_aplicada, precio_final, fecha_entrega_estimada, id_usuario_registro)
@@ -230,14 +241,18 @@ class EnvioDAO
         $consulta = $this->db->prepare("SELECT estado FROM envios WHERE id_envio = :id_envio FOR UPDATE");
         $consulta->execute(['id_envio' => $idEnvio]);
         $anterior = $consulta->fetchColumn();
-        if ($anterior === false) return false;
+        if ($anterior === false) {
+            return false;
+        }
 
         $stmt = $this->db->prepare("UPDATE envios SET estado = :estado WHERE id_envio = :id_envio");
         $actualizado = $stmt->execute([
             'estado' => $estado,
             'id_envio' => $idEnvio,
         ]);
-        if (!$actualizado) return false;
+        if (!$actualizado) {
+            return false;
+        }
 
         $historial = $this->db->prepare("INSERT INTO historial
             (tipo_evento, tabla_afectada, registro_id, campo_modificado, valor_anterior, valor_nuevo, id_usuario, descripcion)

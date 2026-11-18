@@ -28,7 +28,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $accion = $_POST['accion'] ?? '';
 
     if ($accion === 'actualizar' && in_array($_SESSION['rol'] ?? '', $rolesPersonal, true)) {
-        foreach ($datos as $campo => $valor) $datos[$campo] = trim($_POST[$campo] ?? $valor);
+        foreach ($datos as $campo => $valor) {
+            $datos[$campo] = trim($_POST[$campo] ?? $valor);
+        }
         $estados = ['REGISTRADO', 'RECIBIDO_DEPOSITO', 'PREPARADO', 'EN_TRANSITO', 'EN_REPARTO', 'ENTREGADO', 'NO_ENTREGADO', 'DEVUELTO', 'EXTRAVIADO', 'CANCELADO'];
         $idSucursal = filter_var($datos['sucursal'], FILTER_VALIDATE_INT);
         if (!in_array($datos['estado'], $estados, true) || !$datos['codigo']
@@ -59,11 +61,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     exit;
                 }
             } catch (Throwable $exception) {
-                if ($db && $db->inTransaction()) $db->rollBack();
+                if ($db && $db->inTransaction()) {
+                    $db->rollBack();
+                }
                 error_log($exception->getMessage());
-                    $error = $exception instanceof DomainException
-                        ? t($exception->getMessage())
-                        : t('No pudimos guardar el movimiento en este momento. Intentá nuevamente más tarde.');
+                $error = $exception instanceof DomainException
+                    ? t($exception->getMessage())
+                    : t('No pudimos guardar el movimiento en este momento. Intentá nuevamente más tarde.');
             }
         }
     } else {
@@ -89,9 +93,11 @@ $datos['codigo'] = $_GET['codigo'] ?? $datos['codigo'];
 <!doctype html>
 <html lang="<?= limpiar(idiomaActual()) ?>">
 <head>
-  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/png" href="media/favicon.png">
-  <meta name="theme-color" content="#073486"><title><?= limpiar(t('Operaciones')) ?> | Logística Delta</title>
+  <meta name="theme-color" content="#073486">
+  <title><?= limpiar(t('Operaciones')) ?> | Logística Delta</title>
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -99,51 +105,82 @@ $datos['codigo'] = $_GET['codigo'] ?? $datos['codigo'];
   <main class="contenedor pagina-operaciones">
     <h1><?= limpiar(t('Panel de operaciones')) ?></h1>
     <p class="bajada"><?= limpiar(t('Actualizá el estado y la sucursal para que el cliente pueda consultar el recorrido de su paquete.')) ?></p>
-
-
-      <div class="barra-operaciones">
-        <p><?= limpiar(t('Hola, ')) ?><?= limpiar($usuarioActual['nombre']) ?> · <?= limpiar(t(str_replace('_', ' ', strtolower($usuarioActual['rol']))) ) ?></p>
-      </div>
-      <?php if ($error || $mensaje): ?><p class="respuesta-operaciones" role="status"><?= limpiar($error ?: $mensaje) ?></p><?php endif; ?>
-      <div class="columnas-operaciones">
-        <section class="panel-operaciones">
-          <h2><?= limpiar(t('Actualizar recorrido')) ?></h2>
-          <form method="post" class="formulario-operaciones">
-            <input type="hidden" name="accion" value="actualizar">
-            <label><?= limpiar(t('Código del envío')) ?><input name="codigo" placeholder="<?= limpiar(t('Ej.: ENV-0001')) ?>" required value="<?= limpiar($datos['codigo']) ?>"></label>
-            <label><?= limpiar(t('Estado')) ?><select name="estado" required>
-              <?php foreach (['REGISTRADO' => 'Registrado', 'RECIBIDO_DEPOSITO' => 'Recibido en depósito', 'PREPARADO' => 'Preparado', 'EN_TRANSITO' => 'En tránsito', 'EN_REPARTO' => 'En reparto', 'ENTREGADO' => 'Entregado', 'NO_ENTREGADO' => 'No entregado', 'DEVUELTO' => 'Devuelto', 'EXTRAVIADO' => 'Extraviado', 'CANCELADO' => 'Cancelado'] as $value => $label): ?>
-                <option value="<?= limpiar($value) ?>" <?= $datos['estado'] === $value ? 'selected' : '' ?>><?= limpiar(t($label)) ?></option>
+    <div class="barra-operaciones">
+      <p><?= limpiar(t('Hola, ')) ?><?= limpiar($usuarioActual['nombre']) ?> · <?= limpiar(t(str_replace('_', ' ', strtolower($usuarioActual['rol'])))) ?></p>
+    </div>
+    <?php if ($error || $mensaje): ?>
+      <p class="respuesta-operaciones" role="status"><?= limpiar($error ?: $mensaje) ?></p>
+    <?php endif; ?>
+    <div class="columnas-operaciones">
+      <section class="panel-operaciones">
+        <h2><?= limpiar(t('Actualizar recorrido')) ?></h2>
+        <form method="post" class="formulario-operaciones">
+          <input type="hidden" name="accion" value="actualizar">
+          <label>
+            <?= limpiar(t('Código del envío')) ?>
+            <input name="codigo" placeholder="<?= limpiar(t('Ej.: ENV-0001')) ?>" required value="<?= limpiar($datos['codigo']) ?>">
+          </label>
+          <label>
+            <?= limpiar(t('Estado')) ?>
+            <select name="estado" required>
+              <?php foreach ([
+                  'REGISTRADO' => 'Registrado',
+                  'RECIBIDO_DEPOSITO' => 'Recibido en depósito',
+                  'PREPARADO' => 'Preparado',
+                  'EN_TRANSITO' => 'En tránsito',
+                  'EN_REPARTO' => 'En reparto',
+                  'ENTREGADO' => 'Entregado',
+                  'NO_ENTREGADO' => 'No entregado',
+                  'DEVUELTO' => 'Devuelto',
+                  'EXTRAVIADO' => 'Extraviado',
+                  'CANCELADO' => 'Cancelado',
+              ] as $value => $label): ?>
+                <option value="<?= limpiar($value) ?>" <?= $datos['estado'] === $value ? 'selected' : '' ?>>
+                  <?= limpiar(t($label)) ?>
+                </option>
               <?php endforeach; ?>
-            </select></label>
-            <label class="campo-amplio"><?= limpiar(t('Sucursal')) ?><select name="sucursal" required>
+            </select>
+          </label>
+          <label class="campo-amplio">
+            <?= limpiar(t('Sucursal')) ?>
+            <select name="sucursal" required>
               <option value=""><?= limpiar(t('Elegí una sucursal de Buenos Aires')) ?></option>
-              <?php $localidades = array_unique(array_column($sucursales, 'localidad')); foreach ($localidades as $localidad): ?>
+              <?php
+              $localidades = array_unique(array_column($sucursales, 'localidad'));
+              foreach ($localidades as $localidad):
+              ?>
                 <optgroup label="<?= limpiar($localidad) ?>">
-                  <?php foreach ($sucursales as $sucursal): if ($sucursal['localidad'] !== $localidad) continue; ?>
-                    <option value="<?= (int) $sucursal['id_sucursal'] ?>" <?= (string) $datos['sucursal'] === (string) $sucursal['id_sucursal'] ? 'selected' : '' ?>><?= limpiar($sucursal['direccion']) ?></option>
+                  <?php foreach ($sucursales as $sucursal): ?>
+                    <?php if ($sucursal['localidad'] !== $localidad) continue; ?>
+                    <option value="<?= (int) $sucursal['id_sucursal'] ?>" <?= (string) $datos['sucursal'] === (string) $sucursal['id_sucursal'] ? 'selected' : '' ?>>
+                      <?= limpiar($sucursal['direccion']) ?>
+                    </option>
                   <?php endforeach; ?>
                 </optgroup>
               <?php endforeach; ?>
-            </select></label>
-            <label class="campo-amplio"><?= limpiar(t('Detalle para el cliente')) ?><textarea name="detalle" maxlength="255" required><?= limpiar($datos['detalle']) ?></textarea></label>
-            <button class="boton-principal campo-amplio" type="submit"><?= limpiar(t('Guardar movimiento')) ?></button>
-          </form>
-        </section>
-        <section class="panel-operaciones">
-          <h2><?= limpiar(t('Envíos recientes')) ?></h2>
-          <?php if (!$envios): ?><p><?= limpiar(t('Todavía no hay envíos activos.')) ?></p><?php endif; ?>
-          <div class="lista-envios-operaciones">
-            <?php foreach ($envios as $envio): ?>
-              <a class="elemento-envio-operaciones" href="panel-admin.php?codigo=<?= urlencode($envio['codigo_envio']) ?>">
-                <strong><?= limpiar($envio['codigo_envio']) ?> · <?= limpiar(estadoLegible($envio['estado'])) ?></strong>
-                <span><?= limpiar(t('Ubicación:')) ?> <?= limpiar($envio['ubicacion'] ?: t('Sin movimientos cargados')) ?></span>
-                <span><?= limpiar(t('Destino:')) ?> <?= limpiar($envio['destino']) ?></span>
-              </a>
-            <?php endforeach; ?>
-          </div>
-        </section>
-      </div>
+            </select>
+          </label>
+          <label class="campo-amplio">
+            <?= limpiar(t('Detalle para el cliente')) ?>
+            <textarea name="detalle" maxlength="255" required><?= limpiar($datos['detalle']) ?></textarea>
+          </label>
+          <button class="boton-principal campo-amplio" type="submit"><?= limpiar(t('Guardar movimiento')) ?></button>
+        </form>
+      </section>
+      <section class="panel-operaciones">
+        <h2><?= limpiar(t('Envíos recientes')) ?></h2>
+        <?php if (!$envios): ?><p><?= limpiar(t('Todavía no hay envíos activos.')) ?></p><?php endif; ?>
+        <div class="lista-envios-operaciones">
+          <?php foreach ($envios as $envio): ?>
+            <a class="elemento-envio-operaciones" href="panel-admin.php?codigo=<?= urlencode($envio['codigo_envio']) ?>">
+              <strong><?= limpiar($envio['codigo_envio']) ?> · <?= limpiar(estadoLegible($envio['estado'])) ?></strong>
+              <span><?= limpiar(t('Ubicación:')) ?> <?= limpiar($envio['ubicacion'] ?: t('Sin movimientos cargados')) ?></span>
+              <span><?= limpiar(t('Destino:')) ?> <?= limpiar($envio['destino']) ?></span>
+            </a>
+          <?php endforeach; ?>
+        </div>
+      </section>
+    </div>
   </main>
   <?php include __DIR__ . '/partials/footer.php'; ?>
 </body>

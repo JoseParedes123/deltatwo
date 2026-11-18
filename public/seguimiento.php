@@ -30,8 +30,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' || isset($_GET['codigo'])) {
 }
 
 $etapasPorEstado = [
-    'REGISTRADO' => 0, 'RECIBIDO_DEPOSITO' => 1, 'PREPARADO' => 2,
-    'EN_TRANSITO' => 3, 'EN_REPARTO' => 3, 'ENTREGADO' => 4,
+    'REGISTRADO' => 0,
+    'RECIBIDO_DEPOSITO' => 1,
+    'PREPARADO' => 2,
+    'EN_TRANSITO' => 3,
+    'EN_REPARTO' => 3,
+    'ENTREGADO' => 4,
 ];
 $etapaActual = $envio ? ($etapasPorEstado[$envio['estado']] ?? -1) : -1;
 $avisosEstado = [
@@ -67,15 +71,21 @@ $avisosEstado = [
       <?php if (isset($avisosEstado[$envio['estado']])): ?>
         <p class="aviso-estado-envio" role="status"><?= limpiar($avisosEstado[$envio['estado']]) ?></p>
       <?php else: ?>
-      <div class="progreso-envio" aria-label="<?= limpiar(t('Etapas del envío')) ?>">
-        <?php foreach (['Registrado', 'En depósito', 'En preparación', 'En tránsito', 'Entregado'] as $indice => $etapa): ?>
-          <div class="paso-progreso <?= $indice <= $etapaActual ? 'actual' : '' ?>"><span class="punto-progreso"></span><span><?= limpiar(t($etapa)) ?></span></div>
-        <?php endforeach; ?>
-      </div>
+        <div class="progreso-envio" aria-label="<?= limpiar(t('Etapas del envío')) ?>">
+          <?php foreach (['Registrado', 'En depósito', 'En preparación', 'En tránsito', 'Entregado'] as $indice => $etapa): ?>
+            <div class="paso-progreso <?= $indice <= $etapaActual ? 'actual' : '' ?>">
+              <span class="punto-progreso"></span>
+              <span><?= limpiar(t($etapa)) ?></span>
+            </div>
+          <?php endforeach; ?>
+        </div>
       <?php endif; ?>
       <section class="tarjeta-envio" aria-label="<?= limpiar(t('Detalles del envío')) ?>">
         <div class="resumen-envio">
-          <div class="encabezado-envio"><h2><?= limpiar($envio['codigo_envio']) ?></h2><span class="etiqueta-estado"><?= limpiar(estadoLegible($envio['estado'])) ?></span></div>
+          <div class="encabezado-envio">
+            <h2><?= limpiar($envio['codigo_envio']) ?></h2>
+            <span class="etiqueta-estado"><?= limpiar(estadoLegible($envio['estado'])) ?></span>
+          </div>
           <p><?= limpiar(t('Origen:')) ?> <?= limpiar($envio['origen']) ?></p>
           <p><?= limpiar(t('Destino:')) ?> <?= limpiar($envio['destino']) ?></p>
           <p><?= limpiar(t('Fecha de solicitud:')) ?> <?= limpiar($envio['fecha_solicitud']) ?></p>

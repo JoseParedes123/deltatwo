@@ -64,16 +64,39 @@ $mensaje = mensajeFlasheado() ?? '';
     <section class="panel-contacto" aria-label="<?= limpiar(t('Datos y formulario de contacto')) ?>">
       <div class="datos-contacto">
         <a class="elemento-contacto" href="mailto:logistica.delta@gmail.com">
-          <span class="icono-contacto" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="m4 7 8 6 8-6"></path></svg></span>
-          <span><strong>Email</strong><span>logistica.delta@gmail.com</span></span>
+          <span class="icono-contacto" aria-hidden="true">
+            <svg viewBox="0 0 24 24" focusable="false">
+              <rect x="3" y="5" width="18" height="14" rx="2"></rect>
+              <path d="m4 7 8 6 8-6"></path>
+            </svg>
+          </span>
+          <span>
+            <strong>Email</strong>
+            <span>logistica.delta@gmail.com</span>
+          </span>
         </a>
         <div class="elemento-contacto">
-          <span class="icono-contacto" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg></span>
-          <span><strong><?= limpiar(t('Horarios')) ?></strong><span><?= limpiar(t('Lun a Vie. 8 a 18 hs.')) ?></span></span>
+          <span class="icono-contacto" aria-hidden="true">
+            <svg viewBox="0 0 24 24" focusable="false">
+              <circle cx="12" cy="12" r="9"></circle>
+              <path d="M12 7v5l3 2"></path>
+            </svg>
+          </span>
+          <span>
+            <strong><?= limpiar(t('Horarios')) ?></strong>
+            <span><?= limpiar(t('Lun a Vie. 8 a 18 hs.')) ?></span>
+          </span>
         </div>
         <a class="elemento-contacto" href="tel:+541145678900">
-          <span class="icono-contacto" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M7 3H4a1 1 0 0 0-1 1c0 9.4 7.6 17 17 17a1 1 0 0 0 1-1v-3l-5-2-2 3a14 14 0 0 1-7-7l3-2-2-5Z"></path></svg></span>
-          <span><strong><?= limpiar(t('Teléfono')) ?></strong><span>+54 11 4567-8900</span></span>
+          <span class="icono-contacto" aria-hidden="true">
+            <svg viewBox="0 0 24 24" focusable="false">
+              <path d="M7 3H4a1 1 0 0 0-1 1c0 9.4 7.6 17 17 17a1 1 0 0 0 1-1v-3l-5-2-2 3a14 14 0 0 1-7-7l3-2-2-5Z"></path>
+            </svg>
+          </span>
+          <span>
+            <strong><?= limpiar(t('Teléfono')) ?></strong>
+            <span>+54 11 4567-8900</span>
+          </span>
         </a>
       </div>
       <div class="mensaje-contacto">
@@ -94,7 +117,9 @@ $mensaje = mensajeFlasheado() ?? '';
           <label for="message"><?= limpiar(t('Mensaje')) ?></label>
           <textarea id="message" name="message" aria-label="<?= limpiar(t('Escribí tu mensaje')) ?>" required maxlength="3000"><?= limpiar($datos['message']) ?></textarea>
           <button class="boton-principal" type="submit"><?= limpiar(t('Enviar consulta')) ?></button>
-          <p class="respuesta-formulario" role="status" aria-live="polite"><?= limpiar($error ?: $mensaje) ?></p>
+          <p class="respuesta-formulario" role="status" aria-live="polite">
+            <?= limpiar($error ?: $mensaje) ?>
+          </p>
         </form>
       </div>
     </section>
@@ -102,4 +127,3 @@ $mensaje = mensajeFlasheado() ?? '';
   <?php include __DIR__ . '/partials/footer.php'; ?>
 </body>
 </html>
-
